@@ -3,323 +3,77 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>陶瓷主题词汇大屏讲解</title>
+  <title>陶瓷主题词汇讲解（修复版）</title>
   <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.7/dist/hanzi-writer.min.js"></script>
   <style>
     :root {
-      --bg: #f7f4ef;
-      --panel: #fffdf9;
-      --ink: #1f2937;
-      --muted: #6b7280;
-      --line: #e7dccd;
-      --accent: #8b5e34;
-      --accent-soft: #f3e6d6;
-      --shadow: 0 12px 30px rgba(0,0,0,.08);
+      --panel: #fffdf9; --ink: #1f2937; --muted: #6b7280; --line: #e7dccd;
+      --accent: #8b5e34; --accent-soft: #f3e6d6; --shadow: 0 12px 30px rgba(0,0,0,.08);
       --radius: 24px;
     }
     * { box-sizing: border-box; }
     body {
-      margin: 0;
-      font-family: "PingFang SC","Noto Sans SC","Microsoft YaHei",Arial,sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at top left, #fff8ef 0%, transparent 32%),
-        linear-gradient(180deg, #f8f3ec 0%, #f3eee6 100%);
+      margin:0; font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",Arial,sans-serif; color:var(--ink);
+      background: radial-gradient(circle at top left, #fff8ef 0%, transparent 32%), linear-gradient(180deg, #f8f3ec 0%, #f3eee6 100%);
     }
-    .wrap {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 28px 28px 40px;
-    }
-    .hero {
-      background: linear-gradient(135deg, rgba(139,94,52,.15), rgba(255,255,255,.75));
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      padding: 28px 32px;
-      box-shadow: var(--shadow);
-      margin-bottom: 24px;
-    }
-    .hero h1 {
-      margin: 0 0 10px;
-      font-size: 2.4rem;
-      line-height: 1.2;
-    }
-    .hero p {
-      margin: 0;
-      font-size: 1.15rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-    .toolbar {
-      display: grid;
-      grid-template-columns: 1.2fr auto auto;
-      gap: 14px;
-      align-items: center;
-      margin: 20px 0 24px;
-    }
-    .search, .select {
-      border: 2px solid var(--line);
-      border-radius: 18px;
-      background: var(--panel);
-      min-height: 68px;
-      font-size: 1.15rem;
-      padding: 0 18px;
-      color: var(--ink);
-      box-shadow: var(--shadow);
-    }
-    .search {
-      width: 100%;
-    }
-    .legend {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 22px;
-    }
-    .tag {
-      background: var(--accent-soft);
-      color: var(--accent);
-      border: 1px solid #e1c9ae;
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 1rem;
-      font-weight: 700;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 18px;
-    }
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 22px;
-      box-shadow: var(--shadow);
-      cursor: pointer;
-      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-      min-height: 220px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .card:hover, .card:focus-visible {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 34px rgba(0,0,0,.12);
-      border-color: #d6b48d;
-      outline: none;
-    }
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      gap: 12px;
-    }
-    .idx {
-      color: var(--muted);
-      font-size: .95rem;
-      font-weight: 700;
-    }
-    .word-hidden {
-      color: #b8b1a6;
-      font-size: 1.4rem;
-      letter-spacing: .15em;
-    }
-    .pinyin {
-      font-size: 2rem;
-      font-weight: 800;
-      margin: 8px 0 10px;
-      color: #7a4d23;
-      line-height: 1.2;
-    }
-    .english {
-      font-size: 1.35rem;
-      line-height: 1.45;
-      font-weight: 700;
-    }
-    .hint {
-      margin-top: 18px;
-      font-size: 1rem;
-      color: var(--muted);
-    }
-    .empty {
-      padding: 30px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 1.2rem;
-    }
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(33, 24, 15, .48);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 1000;
-    }
-    .modal.show { display: flex; }
-    .panel {
-      width: min(1320px, 98vw);
-      max-height: 94vh;
-      overflow: auto;
-      background: var(--panel);
-      border-radius: 32px;
-      box-shadow: 0 30px 80px rgba(0,0,0,.22);
-      border: 1px solid var(--line);
-      padding: 28px;
-    }
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-    .panel-title {
-      margin: 0;
-      font-size: 3rem;
-      line-height: 1.1;
-    }
-    .panel-sub {
-      margin-top: 8px;
-      font-size: 1.25rem;
-      color: var(--muted);
-      font-weight: 700;
-    }
-    .close-btn {
-      border: none;
-      background: #efe4d5;
-      color: #7a4d23;
-      border-radius: 16px;
-      width: 64px;
-      height: 64px;
-      font-size: 1.8rem;
-      cursor: pointer;
-      font-weight: 800;
-    }
-    .detail-grid {
-      display: grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 24px;
-      align-items: start;
-    }
-    .section {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      padding: 22px;
-    }
-    .section h3 {
-      margin: 0 0 14px;
-      font-size: 1.45rem;
-    }
-    .big-info {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-    .info-box {
-      background: #fcf7f0;
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 18px;
-    }
-    .label {
-      color: var(--muted);
-      font-size: 1rem;
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-    .value {
-      font-size: 2rem;
-      font-weight: 800;
-      line-height: 1.25;
-    }
-    .value.small {
-      font-size: 1.35rem;
-      font-weight: 700;
-    }
-    .example {
-      font-size: 1.4rem;
-      line-height: 1.75;
-      background: #fffaf3;
-      border-left: 6px solid #dfc09b;
-      padding: 16px 18px;
-      border-radius: 18px;
-    }
-    .note {
-      font-size: 1.25rem;
-      line-height: 1.8;
-    }
-    .stroke-wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 8px;
-    }
-    .char-card {
-      background: #fcf8f2;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 16px;
-    }
-    .char-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    .char-label {
-      font-size: 1rem;
-      color: var(--muted);
-      font-weight: 700;
-    }
-    .char-word {
-      font-size: 2rem;
-      font-weight: 900;
-      color: #7a4d23;
-    }
-    .chars {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .writer-box {
-      width: 150px;
-      height: 150px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .footer-tip {
-      margin-top: 18px;
-      font-size: 1rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-    @media (max-width: 980px) {
-      .toolbar { grid-template-columns: 1fr; }
-      .detail-grid { grid-template-columns: 1fr; }
-      .panel-title { font-size: 2.2rem; }
-      .big-info { grid-template-columns: 1fr; }
-      .stroke-wrap { grid-template-columns: 1fr; }
-      .writer-box { width: 120px; height: 120px; }
+    .wrap { max-width: 1620px; margin: 0 auto; padding: 28px 28px 40px; }
+    .hero { background: linear-gradient(135deg, rgba(139,94,52,.15), rgba(255,255,255,.75)); border:1px solid var(--line); border-radius:30px; padding:28px 32px; box-shadow:var(--shadow); margin-bottom:24px; }
+    .hero h1 { margin:0 0 10px; font-size:2.4rem; }
+    .hero p { margin:0; font-size:1.12rem; color:var(--muted); line-height:1.8; }
+    .toolbar { display:grid; grid-template-columns:1.2fr auto auto; gap:14px; margin:20px 0 24px; }
+    .search,.select { border:2px solid var(--line); border-radius:18px; background:var(--panel); min-height:68px; font-size:1.15rem; padding:0 18px; color:var(--ink); box-shadow:var(--shadow); }
+    .legend { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:22px; }
+    .tag { background:var(--accent-soft); color:var(--accent); border:1px solid #e1c9ae; padding:10px 14px; border-radius:999px; font-size:1rem; font-weight:700; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(290px, 1fr)); gap:18px; }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow); cursor:pointer; transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; min-height:220px; display:flex; flex-direction:column; justify-content:space-between; }
+    .card:hover,.card:focus-visible { transform:translateY(-4px); box-shadow:0 18px 34px rgba(0,0,0,.12); border-color:#d6b48d; outline:none; }
+    .card-top { display:flex; justify-content:space-between; align-items:start; gap:12px; }
+    .idx { color:var(--muted); font-size:.95rem; font-weight:700; }
+    .word-hidden { color:#b8b1a6; font-size:1.4rem; letter-spacing:.08em; }
+    .pinyin { font-size:2rem; font-weight:800; margin:8px 0 10px; color:#7a4d23; }
+    .english { font-size:1.35rem; line-height:1.45; font-weight:700; }
+    .hint { margin-top:18px; font-size:1rem; color:var(--muted); }
+    .empty { padding:30px; text-align:center; color:var(--muted); font-size:1.2rem; }
+    .modal { position:fixed; inset:0; background:rgba(33,24,15,.48); display:none; align-items:center; justify-content:center; padding:20px; z-index:1000; }
+    .modal.show { display:flex; }
+    .panel { width:min(1380px, 98vw); max-height:94vh; overflow:auto; background:var(--panel); border-radius:32px; box-shadow:0 30px 80px rgba(0,0,0,.22); border:1px solid var(--line); padding:28px; }
+    .panel-header { display:flex; justify-content:space-between; align-items:start; gap:16px; margin-bottom:18px; }
+    .panel-title { margin:0; font-size:3rem; }
+    .panel-sub { margin-top:8px; font-size:1.25rem; color:var(--muted); font-weight:700; }
+    .close-btn { border:none; background:#efe4d5; color:#7a4d23; border-radius:16px; width:64px; height:64px; font-size:1.8rem; cursor:pointer; font-weight:800; }
+    .detail-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:24px; align-items:start; }
+    .section { background:#fff; border:1px solid var(--line); border-radius:26px; padding:22px; }
+    .section h3 { margin:0 0 14px; font-size:1.45rem; }
+    .big-info { display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; margin-bottom:18px; }
+    .info-box { background:#fcf7f0; border:1px solid var(--line); border-radius:20px; padding:18px; }
+    .label { color:var(--muted); font-size:1rem; margin-bottom:8px; font-weight:700; }
+    .value { font-size:2rem; font-weight:800; line-height:1.25; }
+    .value.small { font-size:1.3rem; font-weight:700; }
+    .example,.note,.radical { font-size:1.18rem; line-height:1.85; background:#fffdfb; border:1px solid var(--line); border-radius:18px; padding:16px 18px; }
+    .example { background:#fffaf3; border-left:6px solid #dfc09b; font-size:1.35rem; }
+    .stroke-wrap { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:8px; }
+    .char-card { background:#fcf8f2; border:1px solid var(--line); border-radius:22px; padding:16px; }
+    .char-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; }
+    .char-label { font-size:1rem; color:var(--muted); font-weight:700; }
+    .char-word { font-size:2rem; font-weight:900; color:#7a4d23; }
+    .chars { display:flex; gap:10px; flex-wrap:wrap; }
+    .writer-box { width:150px; height:150px; background:#fff; border:1px solid var(--line); border-radius:18px; display:inline-flex; align-items:center; justify-content:center; }
+    .footer-tip { margin-top:18px; font-size:1rem; color:var(--muted); line-height:1.7; }
+    @media (max-width:980px) {
+      .toolbar { grid-template-columns:1fr; }
+      .detail-grid { grid-template-columns:1fr; }
+      .panel-title { font-size:2.2rem; }
+      .big-info { grid-template-columns:1fr; }
+      .stroke-wrap { grid-template-columns:1fr; }
+      .writer-box { width:120px; height:120px; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <section class="hero">
-      <h1>陶瓷主题词汇讲解大屏网站</h1>
-      <p>
-        先看 <strong>拼音 + 英文</strong>，再点击词卡查看 <strong>简体 / 繁体</strong>、<strong>笔顺动画</strong>、<strong>例句</strong> 和 <strong>使用注意事项</strong>。
-        适合教师课堂投屏，也适合学生课后自己复习。
-      </p>
+      <h1>陶瓷主题词汇讲解（修复版）</h1>
+      <p>先看 <strong>拼音 + 英文</strong>，再点开看 <strong>简体 / 繁体</strong>、<strong>笔顺动画</strong>、<strong>例句</strong>、<strong>部首分析</strong> 和 <strong>记忆技巧</strong>。这一版专门按华裔学生“先会说、再认字、再写字”的路径来设计。</p>
     </section>
 
     <div class="toolbar">
@@ -337,10 +91,10 @@
     </div>
 
     <div class="legend">
-      <span class="tag">点击词卡进入讲解模式</span>
-      <span class="tag">适合大屏演示</span>
-      <span class="tag">支持简繁对照</span>
-      <span class="tag">自动播放笔顺动画</span>
+      <span class="tag">先激活口语，再进入识字</span>
+      <span class="tag">部首分析与记忆技巧</span>
+      <span class="tag">适合大屏投放</span>
+      <span class="tag">点击词卡查看详情</span>
     </div>
 
     <div id="grid" class="grid"></div>
@@ -361,28 +115,19 @@
         <div class="section">
           <h3>核心信息</h3>
           <div class="big-info">
-            <div class="info-box">
-              <div class="label">拼音</div>
-              <div id="detailPinyin" class="value"></div>
-            </div>
-            <div class="info-box">
-              <div class="label">英文</div>
-              <div id="detailEnglish" class="value small"></div>
-            </div>
-            <div class="info-box">
-              <div class="label">简体</div>
-              <div id="detailSimp" class="value"></div>
-            </div>
-            <div class="info-box">
-              <div class="label">繁体</div>
-              <div id="detailTrad" class="value"></div>
-            </div>
+            <div class="info-box"><div class="label">拼音</div><div id="detailPinyin" class="value"></div></div>
+            <div class="info-box"><div class="label">英文提示</div><div id="detailEnglish" class="value small"></div></div>
+            <div class="info-box"><div class="label">简体</div><div id="detailSimp" class="value"></div></div>
+            <div class="info-box"><div class="label">繁体</div><div id="detailTrad" class="value"></div></div>
           </div>
 
           <h3>例句</h3>
           <div id="detailExample" class="example"></div>
 
-          <h3 style="margin-top:18px;">使用提醒</h3>
+          <h3 style="margin-top:18px;">部首分析 / 字形抓手</h3>
+          <div id="detailRadical" class="radical"></div>
+
+          <h3 style="margin-top:18px;">使用提醒 / 记忆技巧</h3>
           <div id="detailNote" class="note"></div>
         </div>
 
@@ -390,38 +135,28 @@
           <h3>笔顺动画（简体 / 繁体）</h3>
           <div class="stroke-wrap">
             <div class="char-card">
-              <div class="char-head">
-                <div class="char-label">简体</div>
-                <div id="simpWord" class="char-word"></div>
-              </div>
+              <div class="char-head"><div class="char-label">简体</div><div id="simpWord" class="char-word"></div></div>
               <div id="simpChars" class="chars"></div>
             </div>
             <div class="char-card">
-              <div class="char-head">
-                <div class="char-label">繁体</div>
-                <div id="tradWord" class="char-word"></div>
-              </div>
+              <div class="char-head"><div class="char-label">繁体</div><div id="tradWord" class="char-word"></div></div>
               <div id="tradChars" class="chars"></div>
             </div>
           </div>
-          <div class="footer-tip">
-            说明：笔顺动画依赖 HanziWriter 在线脚本。部署到 GitHub Pages / Cloudflare Pages 后可正常显示。
-            遇到个别冷门字动画资源缺失时，页面仍会保留该字并显示静态方框位置。
-          </div>
+          <div class="footer-tip">教学建议：先让学生只看拼音和英文猜词义，再点开看字形和部首；最后用例句做口头造句或快速复述。</div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    const VOCAB = [{"trad": "陶瓷", "simp": "陶瓷", "pinyin": "táocí", "english": "pottery and porcelain", "example": "中国的陶瓷很有名，也很有艺术价值。", "note": "名词。常指 pottery 和 porcelain 的总称；说具体“瓷器”时范围更窄。"}, {"trad": "生活", "simp": "生活", "pinyin": "shēnghuó", "english": "life; daily life", "example": "陶瓷在中国人的日常生活中很常见。", "note": "可作名词，也可作动词，如“生活在纽约”。"}, {"trad": "用品", "simp": "用品", "pinyin": "yòngpǐn", "english": "articles for use", "example": "这些都是厨房里常用的生活用品。", "note": "名词，常和“日常、生活、学习”搭配。"}, {"trad": "來歷", "simp": "来历", "pinyin": "láilì", "english": "origin; source", "example": "这件陶器的来历很特别。", "note": "多用于说明东西或人的来源、背景。"}, {"trad": "發明", "simp": "发明", "pinyin": "fāmíng", "english": "to invent; invention", "example": "有人认为火的使用推动了陶器的发明。", "note": "可作动词或名词；“发现”是找到本来就存在的东西。"}, {"trad": "陶器", "simp": "陶器", "pinyin": "táoqì", "english": "pottery; earthenware", "example": "早期人们先做出了简单的陶器。", "note": "和“瓷器”不同，陶器一般较粗、温度较低烧成。"}, {"trad": "鍋", "simp": "锅", "pinyin": "guō", "english": "pot; pan", "example": "这个锅是用泥土做成的。", "note": "量词搭配常见：一口锅。"}, {"trad": "日常", "simp": "日常", "pinyin": "rìcháng", "english": "daily", "example": "这些器物都来自日常生活。", "note": "常作定语，如“日常生活、日常用品”。"}, {"trad": "泥土", "simp": "泥土", "pinyin": "nítǔ", "english": "clay; earth; soil", "example": "人们把泥土做成盆、盘、罐。", "note": "做陶瓷时可理解为 clay；一般也可指 soil。"}, {"trad": "製", "simp": "制", "pinyin": "zhì", "english": "to make; to manufacture", "example": "古人会用泥土制成各种器物。", "note": "常见于书面语和构词，如“制作、制造、制成”。"}, {"trad": "盆", "simp": "盆", "pinyin": "pén", "english": "basin; tub", "example": "这个花盆是陶瓷做的。", "note": "常见词：花盆、脸盆。"}, {"trad": "盤", "simp": "盘", "pinyin": "pán", "english": "plate; dish", "example": "桌上那个盘很漂亮。", "note": "也可作量词或表示盘子、托盘。"}, {"trad": "罐", "simp": "罐", "pinyin": "guàn", "english": "jar; pot", "example": "古代人常用陶罐装水。", "note": "名词，也常作量词，如“一罐茶”。"}, {"trad": "曬乾", "simp": "晒干", "pinyin": "shàigān", "english": "to dry in the sun", "example": "泥做好的器物要先晒干，再拿去烧。", "note": "动作顺序常见：先晒干，再加工。"}, {"trad": "結實", "simp": "结实", "pinyin": "jiēshi", "english": "solid; strong; durable", "example": "这种陶器很结实，不容易坏。", "note": "读 jiēshi 时表示牢固；口语里也可说人“长得很结实”。"}, {"trad": "偶然", "simp": "偶然", "pinyin": "ǒurán", "english": "unexpectedly; accidentally", "example": "人们偶然发现高温会让泥土变硬。", "note": "多表示不是计划中的事。"}, {"trad": "有意識", "simp": "有意识", "pinyin": "yǒuyìshi", "english": "purposely; on purpose", "example": "后来人们开始有意识地改进做陶的方法。", "note": "和“偶然”相对，表示经过思考、故意这样做。"}, {"trad": "笨重", "simp": "笨重", "pinyin": "bènzhòng", "english": "heavy; cumbersome", "example": "早期的器物比较笨重，不方便运输。", "note": "常形容东西又重又不灵活。"}, {"trad": "溫度", "simp": "温度", "pinyin": "wēndù", "english": "temperature", "example": "烧陶的时候，温度非常重要。", "note": "常说“提高温度、控制温度”。"}, {"trad": "美麗", "simp": "美丽", "pinyin": "měilì", "english": "beautiful", "example": "这件瓷器不但实用，而且很美丽。", "note": "多形容外表、景色、事物；书面感比“漂亮”稍强。"}, {"trad": "裝飾品", "simp": "装饰品", "pinyin": "zhuāngshìpǐn", "english": "decoration; ornament", "example": "有些陶瓷后来变成了装饰品。", "note": "强调用来装饰，不一定强调实用功能。"}, {"trad": "實用", "simp": "实用", "pinyin": "shíyòng", "english": "practical; pragmatic", "example": "这个杯子很实用，每天都能用。", "note": "形容东西有实际用途；和“好看”不同。"}, {"trad": "工藝品", "simp": "工艺品", "pinyin": "gōngyìpǐn", "english": "handicraft; article", "example": "很多游客喜欢买中国工艺品。", "note": "多指有艺术性、手工感的物品。"}, {"trad": "捨得", "simp": "舍得", "pinyin": "shěde", "english": "to be willing to part with", "example": "这么贵重的瓷器，我真舍不得用。", "note": "常说“舍得花钱、舍不得扔”。注意常和“不”连用。"}, {"trad": "名聲", "simp": "名声", "pinyin": "míngshēng", "english": "reputation", "example": "中国瓷器在世界上很有名声。", "note": "可好可坏；“名气”更偏中性口语。"}, {"trad": "運", "simp": "运", "pinyin": "yùn", "english": "to transport", "example": "过去把瓷器运到欧洲很不容易。", "note": "常见于“运输、运到、运走”。"}, {"trad": "路途遙遠", "simp": "路途遥远", "pinyin": "lùtú yáoyuǎn", "english": "a long way to go; far away", "example": "因为路途遥远，运输成本很高。", "note": "书面表达，常用来说明距离远、过程长。"}, {"trad": "昂貴", "simp": "昂贵", "pinyin": "ángguì", "english": "expensive; costly", "example": "这些瓷器到了国外以后非常昂贵。", "note": "正式书面语，和“便宜”相对。"}, {"trad": "珍貴", "simp": "珍贵", "pinyin": "zhēnguì", "english": "valuable; precious", "example": "这是很珍贵的历史资料。", "note": "强调价值高、值得珍惜，不一定指价格。"}, {"trad": "驕傲", "simp": "骄傲", "pinyin": "jiāo'ào", "english": "proud", "example": "中国人常为自己的陶瓷文化感到骄傲。", "note": "可褒可贬；“感到骄傲”是正面，“他很骄傲”可能偏负面。"}, {"trad": "貴重", "simp": "贵重", "pinyin": "guìzhòng", "english": "precious; rare; highly treasured", "example": "贵重物品要小心保管。", "note": "多指价格高、价值大的具体物品。"}, {"trad": "政府", "simp": "政府", "pinyin": "zhèngfǔ", "english": "government", "example": "政府曾经重视瓷器贸易。", "note": "公共机构名词。"}, {"trad": "起初", "simp": "起初", "pinyin": "qǐchū", "english": "in the beginning", "example": "起初，陶瓷主要是生活用品。", "note": "常用于叙述发展过程，后面常跟变化。"}, {"trad": "尊貴", "simp": "尊贵", "pinyin": "zūnguì", "english": "honorable; respectable", "example": "在古代，瓷器常被看作尊贵的东西。", "note": "多形容身份、地位或很高级的事物。"}, {"trad": "鄰近", "simp": "邻近", "pinyin": "línjìn", "english": "near; close to; adjacent", "example": "中国的瓷器先传到邻近地区。", "note": "书面语，比“附近”更正式。"}, {"trad": "歐洲", "simp": "欧洲", "pinyin": "Ōuzhōu", "english": "Europe", "example": "很多瓷器后来被运到欧洲。", "note": "专有名词，地名。"}, {"trad": "美洲", "simp": "美洲", "pinyin": "Měizhōu", "english": "America", "example": "后来美洲也很喜欢中国瓷器。", "note": "一般指 North and South America together。"}, {"trad": "遍", "simp": "遍", "pinyin": "biàn", "english": "complete", "example": "老师让我们把课文读一遍。", "note": "量词，表示从头到尾一次。"}, {"trad": "摔", "simp": "摔", "pinyin": "shuāi", "english": "to drop; to smash", "example": "他一不小心把杯子摔了。", "note": "可及物也可不及物；“摔碎”很常见。"}, {"trad": "碎", "simp": "碎", "pinyin": "suì", "english": "broken", "example": "盘子一摔就碎了。", "note": "可作形容词，也可作结果补语，如“打碎”。"}, {"trad": "留", "simp": "留", "pinyin": "liú", "english": "to save; to keep", "example": "请把盒子留着，以后还可以用。", "note": "意思很多，这里重在“保留、留下”。"}, {"trad": "紙", "simp": "纸", "pinyin": "zhǐ", "english": "paper", "example": "人们会用纸把瓷器包起来。", "note": "常见搭配：白纸、纸箱、纸袋。"}, {"trad": "包", "simp": "包", "pinyin": "bāo", "english": "to wrap", "example": "先用纸包好，再放进箱子里。", "note": "动词时表示包裹；也可作名词“bag”。"}, {"trad": "層", "simp": "层", "pinyin": "céng", "english": "layer", "example": "外面要多包几层纸。", "note": "量词，表示层次，如“一层、两层”。"}, {"trad": "種子", "simp": "种子", "pinyin": "zhǒngzi", "english": "seed", "example": "有人把种子放进碎瓷器里做实验。", "note": "本义是 seed，也可比喻“希望的种子”。"}, {"trad": "澆", "simp": "浇", "pinyin": "jiāo", "english": "to pour; to irrigate; to water", "example": "每天给植物浇一点水。", "note": "常见搭配：浇花、浇水。"}, {"trad": "四周", "simp": "四周", "pinyin": "sìzhōu", "english": "all around", "example": "他在花盆四周放了很多小石头。", "note": "表示周围、周边。"}, {"trad": "緊緊", "simp": "紧紧", "pinyin": "jǐnjǐn", "english": "tightly", "example": "箱子要紧紧包好，才不容易碰坏。", "note": "副词，常和动词连用，如“紧紧抓住”。"}, {"trad": "碰", "simp": "碰", "pinyin": "pèng", "english": "to bump against", "example": "搬运的时候不要让箱子互相碰。", "note": "可表示接触、撞到，也可表示“试一试”。"}, {"trad": "大多數", "simp": "大多数", "pinyin": "dàduōshù", "english": "great majority; most", "example": "大多数人都知道中国瓷器很有名。", "note": "后面常接“人、学生、国家、情况”等名词。"}];
+    const VOCAB = [{"trad": "陶瓷", "simp": "陶瓷", "pinyin": "táocí", "english": "pottery and porcelain", "example": "中国的陶瓷很有名，也很有艺术价值。", "note": "【怎么记】“陶”左边是阝，和土、地方有关；“瓷”下面是“瓦”，很多和器物、陶制品有关的字常和“瓦”联系起来。Heritage tip: 中文里“陶瓷”常一起说，表示这一大类工艺品和器物。", "radical": "陶：阝（左耳刀，和地方、区域有关）；瓷：瓦（和陶器、瓦器、器物有关）。"}, {"trad": "生活", "simp": "生活", "pinyin": "shēnghuó", "english": "life; daily life", "example": "陶瓷在中国人的日常生活中很常见。", "note": "【用法】“生活”可以是 noun，也可以是 verb：我的生活很忙 / 我生活在纽约。要注意“活”不是“话”。", "radical": "活：氵+舌。三点水常和水、流动、活动状态有关。"}, {"trad": "用品", "simp": "用品", "pinyin": "yòngpǐn", "english": "articles for use", "example": "这些都是厨房里常用的生活用品。", "note": "【搭配】生活用品、学习用品、日常用品。'用品'是集合名词，不太说“一个用品”，更常说“一个东西 / 一件用品”。", "radical": "用：和使用有关；品：三个口，表示很多东西放在一起。"}, {"trad": "來歷", "simp": "来历", "pinyin": "láilì", "english": "origin; source", "example": "这件陶器的来历很特别。", "note": "【意思】强调来源、背景。比如：这个名字有什么来历？这个东西的来历不清楚。不要和“未来”混。", "radical": "来历/來歷：整体记词义更有效，重点抓“来源、背景”。"}, {"trad": "發明", "simp": "发明", "pinyin": "fāmíng", "english": "to invent; invention", "example": "有人认为火的使用推动了陶器的发明。", "note": "【易混】发明 invent；发现 discover。发明是“做出本来没有的东西”，发现是“找到本来就存在的东西”。", "radical": "明：日+月，和“亮、清楚”有关。"}, {"trad": "陶器", "simp": "陶器", "pinyin": "táoqì", "english": "pottery; earthenware", "example": "早期人们先做出了简单的陶器。", "note": "【区别】陶器 pottery；瓷器 porcelain。课堂上先抓大意：陶器一般更早、更粗、更低温。", "radical": "器：和器具、器物有关。"}, {"trad": "鍋", "simp": "锅", "pinyin": "guō", "english": "pot; pan", "example": "这个锅是用泥土做成的。", "note": "【搭配】一口锅。会说不会写的同学要特别注意左边是金字旁（钅/釒）。", "radical": "锅/鍋：金字旁，很多金属器具、工具都和这个部件有关。"}, {"trad": "日常", "simp": "日常", "pinyin": "rìcháng", "english": "daily", "example": "这些器物都来自日常生活。", "note": "【搭配】日常生活、日常用品、日常表达。通常作定语。", "radical": "日：和时间有关；常：经常、平常。"}, {"trad": "泥土", "simp": "泥土", "pinyin": "nítǔ", "english": "clay; earth; soil", "example": "人们把泥土做成盆、盘、罐。", "note": "【语感】在陶瓷课里更接近 clay；一般语境里也可指 soil/earth。", "radical": "泥：氵表示和水、湿润有关；土：土地。"}, {"trad": "製", "simp": "制", "pinyin": "zhì", "english": "to make; to manufacture", "example": "古人会用泥土制成各种器物。", "note": "【高频构词】制作、制造、制成、制度。这个字单独出现时常带书面感。", "radical": "制：更适合放在词里记，如“制作、制造、制成”。"}, {"trad": "盆", "simp": "盆", "pinyin": "pén", "english": "basin; tub", "example": "这个花盆是陶瓷做的。", "note": "【常见词】花盆、脸盆。和“盘”分开记：盆更深，盘更平。", "radical": "皿字底，很多容器类的字会看到这个部件。"}, {"trad": "盤", "simp": "盘", "pinyin": "pán", "english": "plate; dish", "example": "桌上那个盘很漂亮。", "note": "【怎么分】盘比较平，盆比较深。", "radical": "盘/盤：和容器、盛放有关，可和“盆”一起对比记。"}, {"trad": "罐", "simp": "罐", "pinyin": "guàn", "english": "jar; pot", "example": "古代人常用陶罐装水。", "note": "【搭配】罐头、茶叶罐、一罐可乐。器皿类词很适合成组记忆：盆、盘、罐、锅。", "radical": "缶字旁，常和容器、陶器有关。这个部首值得特别记。"}, {"trad": "曬乾", "simp": "晒干", "pinyin": "shàigān", "english": "to dry in the sun", "example": "泥做好的器物要先晒干，再拿去烧。", "note": "【顺序词】先……再…… 在叙述工艺流程时很有用。'晒干'强调 sun-dry。", "radical": "晒：日字旁，和太阳有关；干：dry。"}, {"trad": "結實", "simp": "结实", "pinyin": "jiēshi", "english": "solid; strong; durable", "example": "这种陶器很结实，不容易坏。", "note": "【读音提醒】这里读 jiēshi，不读 jiéshí。也可形容人“身体很结实”。", "radical": "结/結：纟/糹；实/實：有“充实、坚实”的感觉。"}, {"trad": "偶然", "simp": "偶然", "pinyin": "ǒurán", "english": "unexpectedly; accidentally", "example": "人们偶然发现高温会让泥土变硬。", "note": "【对比】偶然 accidentally/by chance；有意识 purposely。", "radical": "偶：单人旁，多和人有关。"}, {"trad": "有意識", "simp": "有意识", "pinyin": "yǒuyìshi", "english": "purposely; on purpose", "example": "后来人们开始有意识地改进做陶的方法。", "note": "【用法】常说“有意识地 + 动作”。例如：有意识地练习写字。", "radical": "意：心字底；识/識：言字旁。"}, {"trad": "笨重", "simp": "笨重", "pinyin": "bènzhòng", "english": "heavy; cumbersome", "example": "早期的器物比较笨重，不方便运输。", "note": "【语感】不只是 heavy，还带有“大、不灵活、不方便”的感觉。可和“轻便”对比记。", "radical": "笨：竹字头；重：和重量有关。"}, {"trad": "溫度", "simp": "温度", "pinyin": "wēndù", "english": "temperature", "example": "烧陶的时候，温度非常重要。", "note": "【高频】科学、做饭、天气都能用。注意“度”不是“渡”。", "radical": "温/溫：氵；度：表示程度、单位。"}, {"trad": "美麗", "simp": "美丽", "pinyin": "měilì", "english": "beautiful", "example": "这件瓷器不但实用，而且很美丽。", "note": "【语体】“美丽”比“漂亮”稍微书面一点。作文里很安全。", "radical": "美：和美好有关；丽/麗：和好看有关。"}, {"trad": "裝飾品", "simp": "装饰品", "pinyin": "zhuāngshìpǐn", "english": "decoration; ornament", "example": "有些陶瓷后来变成了装饰品。", "note": "【词组拆看】装饰 + 品。前面是动作，后面是东西。这样拆开记对 heritage learners 很有效。", "radical": "装/裝：衣；饰/飾：和修饰有关；品：三个口。"}, {"trad": "實用", "simp": "实用", "pinyin": "shíyòng", "english": "practical; pragmatic", "example": "这个杯子很实用，每天都能用。", "note": "【常见对比】实用 vs. 好看；实用 vs. 装饰性强。", "radical": "实/實 + 用：真的能用。"}, {"trad": "工藝品", "simp": "工艺品", "pinyin": "gōngyìpǐn", "english": "handicraft; article", "example": "很多游客喜欢买中国工艺品。", "note": "【文化词】不是普通商品，更强调 craftsmanship。", "radical": "艺/藝：和技艺、艺术有关；品：东西、品类。"}, {"trad": "捨得", "simp": "舍得", "pinyin": "shěde", "english": "to be willing to part with", "example": "这么贵重的瓷器，我真舍不得用。", "note": "【最常见】舍不得。比单说“舍得”更常见。", "radical": "舍 + 得：有“肯不肯放手”的感觉。"}, {"trad": "名聲", "simp": "名声", "pinyin": "míngshēng", "english": "reputation", "example": "中国瓷器在世界上很有名声。", "note": "【语感】“名气”更口语；“名声”更像 reputation。可好可坏。", "radical": "名：名字；声/聲：声音，像“传出去的名字”。"}, {"trad": "運", "simp": "运", "pinyin": "yùn", "english": "to transport", "example": "过去把瓷器运到欧洲很不容易。", "note": "【高频构词】运输、运送、运到。", "radical": "运/運：辶，很多和移动、过程有关的字都有走之旁。"}, {"trad": "路途遙遠", "simp": "路途遥远", "pinyin": "lùtú yáoyuǎn", "english": "a long way to go; far away", "example": "因为路途遥远，运输成本很高。", "note": "【书面表达】比“很远”更正式。适合文章和课堂讲解。", "radical": "路：足字旁；途：辶；遥远/遙遠：都和距离有关。"}, {"trad": "昂貴", "simp": "昂贵", "pinyin": "ángguì", "english": "expensive; costly", "example": "这些瓷器到了国外以后非常昂贵。", "note": "【区别】昂贵更正式；很贵更口语。", "radical": "贵/貴：贝/貝常和价值、钱财有关。"}, {"trad": "珍貴", "simp": "珍贵", "pinyin": "zhēnguì", "english": "valuable; precious", "example": "这是很珍贵的历史资料。", "note": "【区别】珍贵不一定贵，但一定有价值、值得珍惜。", "radical": "珍：王/玉字旁；贵/貴：价值高。"}, {"trad": "驕傲", "simp": "骄傲", "pinyin": "jiāo'ào", "english": "proud", "example": "中国人常为自己的陶瓷文化感到骄傲。", "note": "【褒贬两种】感到骄傲 = proud of；他很骄傲 = 可能带负面。", "radical": "骄/驕：马字旁；傲：单人旁。"}, {"trad": "貴重", "simp": "贵重", "pinyin": "guìzhòng", "english": "precious; rare; highly treasured", "example": "贵重物品要小心保管。", "note": "【和珍贵比】贵重更常用于具体物品，也常暗示价格高。", "radical": "贵/貴：贝/貝；重：重要、重量。"}, {"trad": "政府", "simp": "政府", "pinyin": "zhèngfǔ", "english": "government", "example": "政府曾经重视瓷器贸易。", "note": "【高频社会词】写现代社会、历史、政策都常见。要注意“府”的字形。", "radical": "政：和管理有关；府：古代官署、机构。"}, {"trad": "起初", "simp": "起初", "pinyin": "qǐchū", "english": "in the beginning", "example": "起初，陶瓷主要是生活用品。", "note": "【时间顺序】起初……后来……最后…… 很适合写历史发展。", "radical": "起：走之；初：开始阶段。"}, {"trad": "尊貴", "simp": "尊贵", "pinyin": "zūnguì", "english": "honorable; respectable", "example": "在古代，瓷器常被看作尊贵的东西。", "note": "【语体】比较正式，常用于身份、地位、气质，也可形容高级物品。", "radical": "尊：尊敬、地位高；贵/貴：价值高。"}, {"trad": "鄰近", "simp": "邻近", "pinyin": "línjìn", "english": "near; close to; adjacent", "example": "中国的瓷器先传到邻近地区。", "note": "【区别】邻近更书面；附近更口语。", "radical": "邻/鄰：阝；近：辶。"}, {"trad": "歐洲", "simp": "欧洲", "pinyin": "Ōuzhōu", "english": "Europe", "example": "很多瓷器后来被运到欧洲。", "note": "【专有名词】可顺带复习“亚洲、欧洲、美洲”。", "radical": "洲：和大洲、陆地单位有关。"}, {"trad": "美洲", "simp": "美洲", "pinyin": "Měizhōu", "english": "America", "example": "后来美洲也很喜欢中国瓷器。", "note": "【提醒】美洲 ≠ 美国。美洲是 the Americas，包括北美和南美。", "radical": "洲：和大洲、陆地单位有关。"}, {"trad": "遍", "simp": "遍", "pinyin": "biàn", "english": "complete", "example": "老师让我们把课文读一遍。", "note": "【量词】表示从头到尾一次。读一遍、看一遍、说一遍。", "radical": "辶：和动作过程、遍及有关。"}, {"trad": "摔", "simp": "摔", "pinyin": "shuāi", "english": "to drop; to smash", "example": "他一不小心把杯子摔了。", "note": "【搭配】摔坏、摔碎、摔倒。'摔碎'强调因为掉落/碰撞而碎。", "radical": "扌提手旁，很多动作动词都和手有关。"}, {"trad": "碎", "simp": "碎", "pinyin": "suì", "english": "broken", "example": "盘子一摔就碎了。", "note": "【结果补语】打碎、摔碎、碰碎。很适合和动作动词一起记。", "radical": "石字旁，常和硬物、破裂感有关。"}, {"trad": "留", "simp": "留", "pinyin": "liú", "english": "to save; to keep", "example": "请把盒子留着，以后还可以用。", "note": "【常用法】留下、保留、留着。句子里“留着”很自然。", "radical": "建议整体记词，不必拆太细。"}, {"trad": "紙", "simp": "纸", "pinyin": "zhǐ", "english": "paper", "example": "人们会用纸把瓷器包起来。", "note": "【提醒】纸是材料；纸张更书面；卫生纸、白纸、纸箱都很常见。", "radical": "纸/紙：纟/糹，很多和线、布、纸、织物有关的字都有这个部件。"}, {"trad": "包", "simp": "包", "pinyin": "bāo", "english": "to wrap", "example": "先用纸包好，再放进箱子里。", "note": "【词性】可作动词：包起来；也可作名词：书包。", "radical": "勹包字头，有“包住、围起来”的画面感。"}, {"trad": "層", "simp": "层", "pinyin": "céng", "english": "layer", "example": "外面要多包几层纸。", "note": "【量词】一层楼、一层纸、一层意思。这里最适合用 visual image 去记：layer。", "radical": "整体记词义更实用。"}, {"trad": "種子", "simp": "种子", "pinyin": "zhǒngzi", "english": "seed", "example": "有人把种子放进碎瓷器里做实验。", "note": "【读音】这里是 zhǒngzi，不是 zhòngzi。", "radical": "种/種：禾字旁，和植物、耕种有关；子：小的东西。"}, {"trad": "澆", "simp": "浇", "pinyin": "jiāo", "english": "to pour; to irrigate; to water", "example": "每天给植物浇一点水。", "note": "【搭配】浇水、浇花。比“倒水”更强调把水淋在植物/表面上。", "radical": "氵，和水有关，非常好记。"}, {"trad": "四周", "simp": "四周", "pinyin": "sìzhōu", "english": "all around", "example": "他在花盆四周放了很多小石头。", "note": "【意思】around / surrounding area。可和“周围”联系记。", "radical": "周：有“周围、环绕”的画面感。"}, {"trad": "緊緊", "simp": "紧紧", "pinyin": "jǐnjǐn", "english": "tightly", "example": "箱子要紧紧包好，才不容易碰坏。", "note": "【形式】AABB 式副词，常和动词连用：紧紧抓住、紧紧抱着。", "radical": "紧/緊：和绳索、拉紧有关的感觉。"}, {"trad": "碰", "simp": "碰", "pinyin": "pèng", "english": "to bump against", "example": "搬运的时候不要让箱子互相碰。", "note": "【常见】碰到、碰坏、碰一下。这里不是“碰碰运气”的意思。", "radical": "石字旁，和硬物接触、撞击有关。"}, {"trad": "大多數", "simp": "大多数", "pinyin": "dàduōshù", "english": "great majority; most", "example": "大多数人都知道中国瓷器很有名。", "note": "【句型】大多数人…… / 大多数学生…… 后面通常直接接名词。", "radical": "数/數：和计算、数量有关。"}];
 
     const grid = document.getElementById('grid');
     const empty = document.getElementById('empty');
     const search = document.getElementById('search');
     const sortMode = document.getElementById('sortMode');
     const filterMode = document.getElementById('filterMode');
-
     const modal = document.getElementById('modal');
     const closeBtn = document.getElementById('closeBtn');
 
@@ -431,6 +166,7 @@
     const detailTrad = document.getElementById('detailTrad');
     const detailExample = document.getElementById('detailExample');
     const detailNote = document.getElementById('detailNote');
+    const detailRadical = document.getElementById('detailRadical');
     const panelTitle = document.getElementById('panelTitle');
     const panelSub = document.getElementById('panelSub');
     const simpWord = document.getElementById('simpWord');
@@ -450,40 +186,41 @@
       return true;
     }
 
-    function getShownWord(item) {
-      return item.simp === item.trad ? item.simp : `${item.simp} / ${item.trad}`;
+    function shownWord(item) {
+      return item.simp === item.trad ? item.simp : (item.simp + ' / ' + item.trad);
     }
 
     function renderCards() {
       const q = normalized(search.value);
-      let list = VOCAB.filter(item => {
-        const pool = normalized(item.trad + item.simp + item.pinyin + item.english + item.example + item.note);
+      let list = VOCAB.filter(function(item) {
+        const pool = normalized(item.trad + item.simp + item.pinyin + item.english + item.example + item.note + item.radical);
         return matchesFilter(item) && (!q || pool.includes(q));
       });
 
       if (sortMode.value === 'pinyin') {
-        list = [...list].sort((a, b) => a.pinyin.localeCompare(b.pinyin));
+        list = list.slice().sort(function(a, b) {
+          return a.pinyin.localeCompare(b.pinyin);
+        });
       }
 
       grid.innerHTML = '';
       empty.style.display = list.length ? 'none' : 'block';
 
-      list.forEach((item, index) => {
+      list.forEach(function(item, index) {
         const card = document.createElement('button');
         card.className = 'card';
         card.type = 'button';
-        card.innerHTML = `
-          <div>
-            <div class="card-top">
-              <div class="idx">#${index + 1}</div>
-              <div class="word-hidden">${getShownWord(item)}</div>
-            </div>
-            <div class="pinyin">${item.pinyin}</div>
-            <div class="english">${item.english}</div>
-          </div>
-          <div class="hint">点击查看简繁体、笔顺动画、例句与使用提醒</div>
-        `;
-        card.addEventListener('click', () => openDetail(item));
+        card.innerHTML =
+          '<div>' +
+            '<div class="card-top">' +
+              '<div class="idx">#' + (index + 1) + '</div>' +
+              '<div class="word-hidden">' + shownWord(item) + '</div>' +
+            '</div>' +
+            '<div class="pinyin">' + item.pinyin + '</div>' +
+            '<div class="english">' + item.english + '</div>' +
+          '</div>' +
+          '<div class="hint">点击查看简繁体、笔顺动画、部首分析和记忆技巧</div>';
+        card.addEventListener('click', function() { openDetail(item); });
         grid.appendChild(card);
       });
     }
@@ -494,10 +231,10 @@
 
     function makeWriterBoxes(container, word, prefix) {
       clearContainer(container);
-      [...word].forEach((char, i) => {
+      Array.from(word).forEach(function(char, i) {
         const box = document.createElement('div');
         box.className = 'writer-box';
-        box.id = `${prefix}-${i}`;
+        box.id = prefix + '-' + i;
         container.appendChild(box);
         try {
           const writer = HanziWriter.create(box.id, char, {
@@ -521,13 +258,14 @@
     }
 
     function openDetail(item) {
-      panelTitle.textContent = getShownWord(item);
-      panelSub.textContent = `${item.pinyin} · ${item.english}`;
+      panelTitle.textContent = shownWord(item);
+      panelSub.textContent = item.pinyin + ' · ' + item.english;
       detailPinyin.textContent = item.pinyin;
       detailEnglish.textContent = item.english;
       detailSimp.textContent = item.simp;
       detailTrad.textContent = item.trad;
       detailExample.textContent = item.example;
+      detailRadical.textContent = item.radical;
       detailNote.textContent = item.note;
       simpWord.textContent = item.simp;
       tradWord.textContent = item.trad;
@@ -547,10 +285,10 @@
     }
 
     closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
+    modal.addEventListener('click', function(e) {
       if (e.target === modal) closeModal();
     });
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeModal();
     });
 
