@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>陶瓷詞彙互動練習 / 陶瓷词汇互动练习</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --card: #ffffff;
+      --text: #2c2c2c;
+      --muted: #6f6a63;
+      --accent: #8c5a3c;
+      --accent-soft: #ead9cc;
+      --correct: #1e7a46;
+      --wrong: #b42318;
+      --border: #e4ddd5;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background: linear-gradient(180deg, #f8f5f0 0%, #efe7dc 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    .hero {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 0.98rem;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+
+    .primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .secondary {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .scoreboard {
+      margin-top: 14px;
+      font-size: 0.98rem;
+      color: var(--muted);
+    }
+
+    .section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      margin-top: 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+    }
+
+    .section h2 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+      color: var(--accent);
+    }
+
+    .section p.note {
+      margin-top: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .question {
+      border-top: 1px dashed var(--border);
+      padding-top: 16px;
+      margin-top: 16px;
+    }
+
+    .question:first-of-type {
+      border-top: none;
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .q-title {
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 1.02rem;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      background: #faf7f3;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 0.98rem;
+    }
+
+    .option-btn.correct {
+      background: #edf8f1;
+      border-color: #9bd2af;
+      color: var(--correct);
+      font-weight: 700;
+    }
+
+    .option-btn.wrong {
+      background: #fff1f1;
+      border-color: #ebb5b5;
+      color: var(--wrong);
+      font-weight: 700;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      display: none;
+      font-size: 0.96rem;
+    }
+
+    .feedback.show { display: block; }
+    .feedback.correct { background: #edf8f1; color: var(--correct); }
+    .feedback.wrong { background: #fff1f1; color: var(--wrong); }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      background: #faf7f3;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .chip.selected {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: #d6b6a0;
+      font-weight: 700;
+    }
+
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .word {
+      background: #faf7f3;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+
+    .blank {
+      display: inline-block;
+      min-width: 120px;
+      border-bottom: 2px solid var(--accent);
+      margin: 0 4px;
+      padding: 0 8px 2px;
+      text-align: center;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .drop-zone {
+      background: #fcfaf7;
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 10px;
+    }
+
+    .sentence {
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+
+    .sentence:last-child { margin-bottom: 0; }
+
+    .small-btn {
+      background: var(--accent-soft);
+      color: var(--accent);
+      margin-top: 12px;
+    }
+
+    .hidden { display: none; }
+
+    .teacher-tip {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #fffaf3;
+      border: 1px dashed #d7c3af;
+      color: #6b5445;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 700px) {
+      h1 { font-size: 1.65rem; }
+      .container { padding: 16px 12px 40px; }
+      .hero, .section { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>陶瓷詞彙互動練習</h1>
+      <p class="sub">學生可直接點選答案，立刻看到對錯與簡短解釋。適合課堂投影、分組搶答、PPT 改編。</p>
+      <div class="toolbar">
+        <button class="secondary" id="lang-toggle" onclick="toggleLang()">切换到简体</button>
+        <button class="primary" onclick="showAllAnswers()">顯示全部答案</button>
+        <button class="secondary" onclick="resetAll()">重新開始</button>
+      </div>
+      <div class="scoreboard">目前得分：<span id="score">0</span> / <span id="total">0</span></div>
+    </div>
+
+    <section class="section">
+      <h2>一、語境選擇</h2>
+      <p class="note">請選出最自然、最合適的詞語。</p>
+      <div id="mcq-container"></div>
+    </section>
+
+    <section class="section">
+      <h2>二、分類挑戰</h2>
+      <p class="note">請先點選一個類別，再點選下面的詞語，把它們送回家。</p>
+      <div class="chips" id="category-chips"></div>
+      <div class="word-bank" id="category-words"></div>
+      <div class="drop-zone" id="category-status">請先選一個類別，再開始分類。</div>
+      <button class="small-btn" onclick="checkCategories()">檢查分類</button>
+      <div id="category-feedback" class="feedback"></div>
+    </section>
+
+    <section class="section">
+      <h2>三、填空練習</h2>
+      <p class="note">先點選下面的詞，再點要填的空格。</p>
+      <div class="word-bank" id="fill-bank"></div>
+      <div id="fill-sentences"></div>
+      <button class="small-btn" onclick="checkFill()">檢查答案</button>
+      <div id="fill-feedback" class="feedback"></div>
+    </section>
+
+    <section class="section">
+      <h2>四、快速判斷：對還是不太對？</h2>
+      <p class="note">看看這些搭配自然不自然，選擇「自然」或「不太自然」。</p>
+      <div id="judge-container"></div>
+      <div class="teacher-tip">
+        教師用法建議：這個頁面很適合做課堂口頭活動。你可以先讓學生自己點選，再讓他們解釋：<strong>為什麼這個詞在這裡自然 / 不自然？</strong>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    let currentLang = 'trad';
+
+    const i18n = {
+      trad: {
+        pageTitle: '陶瓷詞彙互動練習',
+        heroSub: '學生可直接點選答案，立刻看到對錯與簡短解釋。適合課堂投影、分組搶答、PPT 改編。',
+        showAll: '顯示全部答案',
+        reset: '重新開始',
+        toggle: '切換到简体',
+        scoreLabel: '目前得分：',
+        sec1: '一、語境選擇',
+        sec1note: '請選出最自然、最合適的詞語。',
+        sec2: '二、分類挑戰',
+        sec2note: '請先點選一個類別，再點選下面的詞語，把它們送回家。',
+        sec3: '三、填空練習',
+        sec3note: '先點選下面的詞，再點要填的空格。',
+        sec4: '四、快速判斷：對還是不太對？',
+        sec4note: '看看這些搭配自然不自然，選擇「自然」或「不太自然」。',
+        categoryStatus: '請先選一個類別，再開始分類。',
+        checkCategories: '檢查分類',
+        checkFill: '檢查答案',
+        natural: '自然',
+        unnatural: '不太自然',
+        teacherTip: '教師用法建議：這個頁面很適合做課堂口頭活動。你可以先讓學生自己點選，再讓他們解釋：為什麼這個詞在這裡自然 / 不自然？',
+        categories: {
+          '器物 / 作品': ['陶瓷', '陶器', '鍋', '盆', '盤', '罐', '裝飾品', '工藝品', '用品'],
+          '製作 / 動作': ['泥土', '製', '曬乾', '摔', '碎', '留', '包', '澆', '碰'],
+          '特點 / 價值': ['結實', '笨重', '美麗', '實用', '昂貴', '珍貴', '驕傲', '貴重', '尊貴'],
+          '歷史 / 傳播': ['來歷', '發明', '偶然', '有意識', '名聲', '運', '起初', '政府', '鄰近', '歐洲', '美洲', '遍', '路途遙遠'],
+          '其他常用詞': ['生活', '日常', '溫度', '紙', '層', '種子', '四周', '緊緊', '大多數']
+        },
+        mcqs: [
+          { q: '做陶器的時候，人們先用什麼做出形狀？', options: ['泥土', '紙', '種子', '政府'], answer: '泥土', explanation: '陶器最早是用泥土做成形狀，再曬乾、燒製。' },
+          { q: '這個盤子很好看，也很方便每天使用，最合適的詞是：', options: ['驕傲', '實用', '路途遙遠', '尊貴'], answer: '實用', explanation: '「實用」表示真的有用，適合日常生活。' },
+          { q: '他不小心把杯子摔到地上，杯子馬上______了。', options: ['留', '碎', '遍', '澆'], answer: '碎', explanation: '「摔碎」是非常自然的搭配。' },
+          { q: '這件工藝品很少見，而且很有歷史價值，所以非常______。', options: ['珍貴', '笨重', '四周', '起初'], answer: '珍貴', explanation: '「珍貴」強調寶貴、少見、有價值。' },
+          { q: '中國陶瓷後來傳到歐洲和美洲，慢慢有了很大的______。', options: ['名聲', '種子', '層', '溫度'], answer: '名聲', explanation: '「有名聲」表示變得有名、受到很多人知道和欣賞。' },
+          { q: '這件東西太貴了，我有點不______買。', options: ['碰', '製', '捨得', '留'], answer: '捨得', explanation: '「捨得」常用在花錢、送東西等語境。' },
+          { q: '做好的陶器要先放在外面______，不能馬上燒。', options: ['曬乾', '碰', '運', '包'], answer: '曬乾', explanation: '「曬乾」就是用太陽或空氣把東西變乾。' },
+          { q: '這個花瓶很______，你抱的時候要小心，別太用力。', options: ['路途遙遠', '貴重', '大多數', '偶然'], answer: '貴重', explanation: '「貴重」多用於東西價格高、需要小心保管。' }
+        ],
+        fillWords: ['泥土', '實用', '意識', '歐洲', '珍貴', '包', '鍋'],
+        fillData: [
+          { text: '做陶器的時候，人們先用', answer: '泥土', tail: '做出形狀。' },
+          { text: '有些陶瓷不只是好看，也很', answer: '實用', tail: '，所以大家每天都會用。' },
+          { text: '人們後來開始有', answer: '意識', tail: '地研究怎麼把陶器做得更漂亮。' },
+          { text: '中國陶瓷慢慢傳到', answer: '歐洲', tail: '和美洲。' },
+          { text: '這件工藝品很', answer: '珍貴', tail: '，所以大家都很小心。' }
+        ],
+        judges: [
+          { q: '日常用品', answer: true, explanation: '自然。這是非常常見的搭配。' },
+          { q: '美麗的工藝品', answer: true, explanation: '自然。「美麗」可以形容工藝品、裝飾品。' },
+          { q: '摔溫度', answer: false, explanation: '不太自然。「摔」是動作，「溫度」不能被摔。' },
+          { q: '昂貴的種子', answer: false, explanation: '語法上不是完全錯，但在這一課語境中不自然。' },
+          { q: '控制溫度', answer: true, explanation: '自然。燒製陶器時常說「控制溫度」。' },
+          { q: '路途遙遠', answer: true, explanation: '自然。表示距離很遠、路不好走。' },
+          { q: '緊緊地包', answer: true, explanation: '自然。比如：用紙緊緊地包起來。' },
+          { q: '尊貴的泥土', answer: false, explanation: '不太自然。「尊貴」一般形容人、身份或非常高級的東西。' }
+        ],
+        correctMsg: '答對了！',
+        wrongLead: '再看看。正確答案是「',
+        categoryCurrent: '目前選擇：',
+        categoryPrompt: '。請點下面的詞語。',
+        chooseCategoryFirst: '請先選一個類別。',
+        categoryPerfect: '太好了！你全部分對了。',
+        categoryPartial: '目前分對',
+        categoryPartial2: '。可以請學生討論：哪些詞最容易混淆？',
+        fillPerfect: '全部正確！這些詞都放對地方了。',
+        fillPartial: '你答對了',
+        fillPartial2: '。可以請學生再說一遍完整句子。',
+        showFillAnswers: '填空答案已全部顯示。',
+        answerLabel: '正確答案：'
+      },
+      simp: {
+        pageTitle: '陶瓷词汇互动练习',
+        heroSub: '学生可直接点选答案，立刻看到对错与简短解释。适合课堂投影、分组抢答、PPT 改编。',
+        showAll: '显示全部答案',
+        reset: '重新开始',
+        toggle: '切换到繁體',
+        scoreLabel: '目前得分：',
+        sec1: '一、语境选择',
+        sec1note: '请选择出最自然、最合适的词语。',
+        sec2: '二、分类挑战',
+        sec2note: '请先点选一个类别，再点选下面的词语，把它们送回家。',
+        sec3: '三、填空练习',
+        sec3note: '先点选下面的词，再点要填的空格。',
+        sec4: '四、快速判断：对还是不太对？',
+        sec4note: '看看这些搭配自然不自然，选择“自然”或“不太自然”。',
+        categoryStatus: '请先选一个类别，再开始分类。',
+        checkCategories: '检查分类',
+        checkFill: '检查答案',
+        natural: '自然',
+        unnatural: '不太自然',
+        teacherTip: '教师用法建议：这个页面很适合做课堂口头活动。你可以先让学生自己点选，再让他们解释：为什么这个词在这里自然 / 不自然？',
+        categories: {
+          '器物 / 作品': ['陶瓷', '陶器', '锅', '盆', '盘', '罐', '装饰品', '工艺品', '用品'],
+          '制作 / 动作': ['泥土', '制', '晒干', '摔', '碎', '留', '包', '浇', '碰'],
+          '特点 / 价值': ['结实', '笨重', '美丽', '实用', '昂贵', '珍贵', '骄傲', '贵重', '尊贵'],
+          '历史 / 传播': ['来历', '发明', '偶然', '有意识', '名声', '运', '起初', '政府', '邻近', '欧洲', '美洲', '遍', '路途遥远'],
+          '其他常用词': ['生活', '日常', '温度', '纸', '层', '种子', '四周', '紧紧', '大多数']
+        },
+        mcqs: [
+          { q: '做陶器的时候，人们先用什么做出形状？', options: ['泥土', '纸', '种子', '政府'], answer: '泥土', explanation: '陶器最早是用泥土做成形状，再晒干、烧制。' },
+          { q: '这个盘子很好看，也很方便每天使用，最合适的词是：', options: ['骄傲', '实用', '路途遥远', '尊贵'], answer: '实用', explanation: '“实用”表示真的有用，适合日常生活。' },
+          { q: '他不小心把杯子摔到地上，杯子马上______了。', options: ['留', '碎', '遍', '浇'], answer: '碎', explanation: '“摔碎”是非常自然的搭配。' },
+          { q: '这件工艺品很少见，而且很有历史价值，所以非常______。', options: ['珍贵', '笨重', '四周', '起初'], answer: '珍贵', explanation: '“珍贵”强调宝贵、少见、有价值。' },
+          { q: '中国陶瓷后来传到欧洲和美洲，慢慢有了很大的______。', options: ['名声', '种子', '层', '温度'], answer: '名声', explanation: '“有名声”表示变得有名、受到很多人知道和欣赏。' },
+          { q: '这件东西太贵了，我有点不______买。', options: ['碰', '制', '舍得', '留'], answer: '舍得', explanation: '“舍得”常用在花钱、送东西等语境。' },
+          { q: '做好的陶器要先放在外面______，不能马上烧。', options: ['晒干', '碰', '运', '包'], answer: '晒干', explanation: '“晒干”就是用太阳或空气把东西变干。' },
+          { q: '这个花瓶很______，你抱的时候要小心，别太用力。', options: ['路途遥远', '贵重', '大多数', '偶然'], answer: '贵重', explanation: '“贵重”多用于东西价格高、需要小心保管。' }
+        ],
+        fillWords: ['泥土', '实用', '意识', '欧洲', '珍贵', '包', '锅'],
+        fillData: [
+          { text: '做陶器的时候，人们先用', answer: '泥土', tail: '做出形状。' },
+          { text: '有些陶瓷不只是好看，也很', answer: '实用', tail: '，所以大家每天都会用。' },
+          { text: '人们后来开始有', answer: '意识', tail: '地研究怎么把陶器做得更漂亮。' },
+          { text: '中国陶瓷慢慢传到', answer: '欧洲', tail: '和美洲。' },
+          { text: '这件工艺品很', answer: '珍贵', tail: '，所以大家都很小心。' }
+        ],
+        judges: [
+          { q: '日常用品', answer: true, explanation: '自然。这是非常常见的搭配。' },
+          { q: '美丽的工艺品', answer: true, explanation: '自然。“美丽”可以形容工艺品、装饰品。' },
+          { q: '摔温度', answer: false, explanation: '不太自然。“摔”是动作，“温度”不能被摔。' },
+          { q: '昂贵的种子', answer: false, explanation: '语法上不是完全错，但在这一课语境中不自然。' },
+          { q: '控制温度', answer: true, explanation: '自然。烧制陶器时常说“控制温度”。' },
+          { q: '路途遥远', answer: true, explanation: '自然。表示距离很远、路不好走。' },
+          { q: '紧紧地包', answer: true, explanation: '自然。比如：用纸紧紧地包起来。' },
+          { q: '尊贵的泥土', answer: false, explanation: '不太自然。“尊贵”一般形容人、身份或非常高级的东西。' }
+        ],
+        correctMsg: '答对了！',
+        wrongLead: '再看看。正确答案是“',
+        categoryCurrent: '目前选择：',
+        categoryPrompt: '。请点下面的词语。',
+        chooseCategoryFirst: '请先选一个类别。',
+        categoryPerfect: '太好了！你全部分对了。',
+        categoryPartial: '目前分对',
+        categoryPartial2: '。可以请学生讨论：哪些词最容易混淆？',
+        fillPerfect: '全部正确！这些词都放对地方了。',
+        fillPartial: '你答对了',
+        fillPartial2: '。可以请学生再说一遍完整句子。',
+        showFillAnswers: '填空答案已全部显示。',
+        answerLabel: '正确答案：'
+      }
+    };
+
+    let score = 0;
+    let selectedCategory = null;
+    let categoryAssignments = {};
+    let selectedFillWord = null;
+    let fillSelections = [];
+
+    function getLang() {
+      return i18n[currentLang];
+    }
+
+    function updateStaticText() {
+      const t = getLang();
+      document.querySelector('h1').textContent = t.pageTitle;
+      document.querySelector('.sub').textContent = t.heroSub;
+      document.getElementById('lang-toggle').textContent = t.toggle;
+      document.querySelector('.primary').textContent = t.showAll;
+      document.querySelectorAll('.secondary')[1].textContent = t.reset;
+      document.querySelector('.scoreboard').childNodes[0].textContent = t.scoreLabel;
+      document.querySelectorAll('.section h2')[0].textContent = t.sec1;
+      document.querySelectorAll('.section .note')[0].textContent = t.sec1note;
+      document.querySelectorAll('.section h2')[1].textContent = t.sec2;
+      document.querySelectorAll('.section .note')[1].textContent = t.sec2note;
+      document.querySelectorAll('.section h2')[2].textContent = t.sec3;
+      document.querySelectorAll('.section .note')[2].textContent = t.sec3note;
+      document.querySelectorAll('.section h2')[3].textContent = t.sec4;
+      document.querySelectorAll('.section .note')[3].textContent = t.sec4note;
+      document.getElementById('category-status').textContent = t.categoryStatus;
+      document.querySelectorAll('.small-btn')[0].textContent = t.checkCategories;
+      document.querySelectorAll('.small-btn')[1].textContent = t.checkFill;
+      document.querySelector('.teacher-tip').textContent = t.teacherTip;
+    }
+
+    function totalCount() {
+      return getLang().mcqs.length + getLang().fillData.length + getLang().judges.length + 1;
+    }
+
+    function updateScore() {
+      document.getElementById('score').textContent = score;
+      document.getElementById('total').textContent = totalCount();
+    }
+
+    function renderMcqs() {
+      const t = getLang();
+      const container = document.getElementById('mcq-container');
+      container.innerHTML = '';
+      t.mcqs.forEach((item, idx) => {
+        const qDiv = document.createElement('div');
+        qDiv.className = 'question';
+        qDiv.innerHTML = `
+          <div class="q-title">${idx + 1}. ${item.q}</div>
+          <div class="options" id="options-${idx}"></div>
+          <div class="feedback" id="feedback-${idx}"></div>
+        `;
+        container.appendChild(qDiv);
+        const optionsDiv = qDiv.querySelector(`#options-${idx}`);
+        item.options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.textContent = opt;
+          btn.onclick = () => handleMcq(idx, opt, btn);
+          optionsDiv.appendChild(btn);
+        });
+      });
+    }
+
+    function handleMcq(idx, choice, btn) {
+      const t = getLang();
+      const item = t.mcqs[idx];
+      const options = document.querySelectorAll(`#options-${idx} .option-btn`);
+      if ([...options].some(b => b.disabled)) return;
+      options.forEach(b => b.disabled = true);
+      const feedback = document.getElementById(`feedback-${idx}`);
+      if (choice === item.answer) {
+        btn.classList.add('correct');
+        feedback.className = 'feedback correct show';
+        feedback.textContent = `${t.correctMsg}${item.explanation}`;
+        score += 1;
+      } else {
+        btn.classList.add('wrong');
+        [...options].forEach(b => {
+          if (b.textContent === item.answer) b.classList.add('correct');
+        });
+        feedback.className = 'feedback wrong show';
+        feedback.textContent = `${t.wrongLead}${item.answer}」。${item.explanation}`;
+      }
+      updateScore();
+    }
+
+    function renderCategories() {
+      const t = getLang();
+      const chipBox = document.getElementById('category-chips');
+      const wordBox = document.getElementById('category-words');
+      chipBox.innerHTML = '';
+      wordBox.innerHTML = '';
+      categoryAssignments = {};
+      selectedCategory = null;
+
+      Object.keys(t.categories).forEach(cat => {
+        const chip = document.createElement('div');
+        chip.className = 'chip';
+        chip.textContent = cat;
+        chip.onclick = () => {
+          selectedCategory = cat;
+          document.querySelectorAll('#category-chips .chip').forEach(c => c.classList.remove('selected'));
+          chip.classList.add('selected');
+          document.getElementById('category-status').textContent = `${t.categoryCurrent}${cat}${t.categoryPrompt}`;
+        };
+        chipBox.appendChild(chip);
+      });
+
+      const allWords = Object.values(t.categories).flat();
+      allWords.forEach(word => {
+        const w = document.createElement('div');
+        w.className = 'word';
+        w.textContent = word;
+        w.onclick = () => {
+          if (!selectedCategory) {
+            document.getElementById('category-status').textContent = t.chooseCategoryFirst;
+            return;
+          }
+          categoryAssignments[word] = selectedCategory;
+          w.style.background = '#ead9cc';
+          w.style.borderColor = '#d6b6a0';
+          w.title = `${t.categoryCurrent}${selectedCategory}`;
+        };
+        wordBox.appendChild(w);
+      });
+    }
+
+    function checkCategories() {
+      const t = getLang();
+      const allWords = Object.values(t.categories).flat();
+      let correct = 0;
+      allWords.forEach(word => {
+        const correctCategory = Object.keys(t.categories).find(cat => t.categories[cat].includes(word));
+        if (categoryAssignments[word] === correctCategory) correct += 1;
+      });
+      const fb = document.getElementById('category-feedback');
+      fb.className = 'feedback show ' + (correct === allWords.length ? 'correct' : 'wrong');
+      if (correct === allWords.length) {
+        fb.textContent = `${t.categoryPerfect} (${correct}/${allWords.length})`;
+        if (!fb.dataset.counted) {
+          score += 1;
+          fb.dataset.counted = 'yes';
+          updateScore();
+        }
+      } else {
+        fb.textContent = `${t.categoryPartial} ${correct}/${allWords.length}${t.categoryPartial2}`;
+      }
+    }
+
+    function renderFill() {
+      const t = getLang();
+      const bank = document.getElementById('fill-bank');
+      const sentences = document.getElementById('fill-sentences');
+      bank.innerHTML = '';
+      sentences.innerHTML = '';
+      fillSelections = Array(t.fillData.length).fill('');
+      selectedFillWord = null;
+
+      t.fillWords.forEach(word => {
+        const w = document.createElement('div');
+        w.className = 'word';
+        w.textContent = word;
+        w.onclick = () => {
+          selectedFillWord = word;
+          document.querySelectorAll('#fill-bank .word').forEach(el => el.style.background = '#faf7f3');
+          w.style.background = '#ead9cc';
+        };
+        bank.appendChild(w);
+      });
+
+      t.fillData.forEach((item, idx) => {
+        const row = document.createElement('div');
+        row.className = 'sentence';
+        row.innerHTML = `${idx + 1}. ${item.text} <span class="blank" id="blank-${idx}">______</span> ${item.tail}`;
+        sentences.appendChild(row);
+        row.querySelector(`#blank-${idx}`).onclick = () => {
+          if (!selectedFillWord) return;
+          fillSelections[idx] = selectedFillWord;
+          row.querySelector(`#blank-${idx}`).textContent = selectedFillWord;
+        };
+      });
+    }
+
+    function checkFill() {
+      const t = getLang();
+      let correct = 0;
+      t.fillData.forEach((item, idx) => {
+        const blank = document.getElementById(`blank-${idx}`);
+        if (fillSelections[idx] === item.answer) {
+          blank.style.color = 'var(--correct)';
+          correct += 1;
+        } else {
+          blank.style.color = 'var(--wrong)';
+        }
+      });
+      const fb = document.getElementById('fill-feedback');
+      fb.className = 'feedback show ' + (correct === t.fillData.length ? 'correct' : 'wrong');
+      if (!fb.dataset.counted) {
+        score += correct;
+        fb.dataset.counted = 'yes';
+        updateScore();
+      }
+      fb.textContent = correct === t.fillData.length
+        ? t.fillPerfect
+        : `${t.fillPartial} ${correct}/${t.fillData.length}${t.fillPartial2}`;
+    }
+
+    function renderJudges() {
+      const t = getLang();
+      const container = document.getElementById('judge-container');
+      container.innerHTML = '';
+      t.judges.forEach((item, idx) => {
+        const qDiv = document.createElement('div');
+        qDiv.className = 'question';
+        qDiv.innerHTML = `
+          <div class="q-title">${idx + 1}. 「${item.q}」</div>
+          <div class="options">
+            <button class="option-btn" id="judge-yes-${idx}">${t.natural}</button>
+            <button class="option-btn" id="judge-no-${idx}">${t.unnatural}</button>
+          </div>
+          <div class="feedback" id="judge-feedback-${idx}"></div>
+        `;
+        container.appendChild(qDiv);
+        document.getElementById(`judge-yes-${idx}`).onclick = () => handleJudge(idx, true);
+        document.getElementById(`judge-no-${idx}`).onclick = () => handleJudge(idx, false);
+      });
+    }
+
+    function handleJudge(idx, choice) {
+      const t = getLang();
+      const yesBtn = document.getElementById(`judge-yes-${idx}`);
+      const noBtn = document.getElementById(`judge-no-${idx}`);
+      if (yesBtn.disabled || noBtn.disabled) return;
+      yesBtn.disabled = true;
+      noBtn.disabled = true;
+      const item = t.judges[idx];
+      const fb = document.getElementById(`judge-feedback-${idx}`);
+      if (choice === item.answer) {
+        (choice ? yesBtn : noBtn).classList.add('correct');
+        fb.className = 'feedback correct show';
+        fb.textContent = `${t.correctMsg}${item.explanation}`;
+        score += 1;
+      } else {
+        (choice ? yesBtn : noBtn).classList.add('wrong');
+        (item.answer ? yesBtn : noBtn).classList.add('correct');
+        fb.className = 'feedback wrong show';
+        fb.textContent = `再想想。${item.explanation}`;
+      }
+      updateScore();
+    }
+
+    function showAllAnswers() {
+      const t = getLang();
+      t.mcqs.forEach((item, idx) => {
+        const options = document.querySelectorAll(`#options-${idx} .option-btn`);
+        if ([...options].some(b => b.disabled)) return;
+        options.forEach(b => {
+          b.disabled = true;
+          if (b.textContent === item.answer) b.classList.add('correct');
+        });
+        const feedback = document.getElementById(`feedback-${idx}`);
+        feedback.className = 'feedback correct show';
+        feedback.textContent = `${t.answerLabel}${item.answer}。${item.explanation}`;
+      });
+
+      t.fillData.forEach((item, idx) => {
+        const blank = document.getElementById(`blank-${idx}`);
+        blank.textContent = item.answer;
+        blank.style.color = 'var(--correct)';
+      });
+      const fillFb = document.getElementById('fill-feedback');
+      fillFb.className = 'feedback correct show';
+      fillFb.textContent = t.showFillAnswers;
+
+      t.judges.forEach((item, idx) => {
+        const yesBtn = document.getElementById(`judge-yes-${idx}`);
+        const noBtn = document.getElementById(`judge-no-${idx}`);
+        if (!yesBtn.disabled && !noBtn.disabled) {
+          yesBtn.disabled = true;
+          noBtn.disabled = true;
+          (item.answer ? yesBtn : noBtn).classList.add('correct');
+          const fb = document.getElementById(`judge-feedback-${idx}`);
+          fb.className = 'feedback correct show';
+          fb.textContent = item.explanation;
+        }
+      });
+    }
+
+    function resetAll() {
+      score = 0;
+      updateScore();
+      document.getElementById('category-feedback').dataset.counted = '';
+      document.getElementById('fill-feedback').dataset.counted = '';
+      updateStaticText();
+      renderMcqs();
+      renderCategories();
+      renderFill();
+      renderJudges();
+      document.getElementById('category-feedback').className = 'feedback';
+      document.getElementById('fill-feedback').className = 'feedback';
+      document.getElementById('category-status').textContent = getLang().categoryStatus;
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === 'trad' ? 'simp' : 'trad';
+      resetAll();
+    }
+
+    updateStaticText();
+    renderMcqs();
+    renderCategories();
+    renderFill();
+    renderJudges();
+    updateScore();
+  </script>
+</body>
+</html>
