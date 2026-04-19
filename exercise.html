@@ -193,7 +193,7 @@
     .feedback.wrong { background: #fff1f1; color: var(--wrong); }
 
     .input-row {
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       font-size: 1rem;
     }
 
@@ -208,13 +208,20 @@
     }
 
     input.answer-input {
-      padding: 8px 10px;
-      border-radius: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
       border: 1px solid var(--border);
-      font-size: 1rem;
-      min-width: 140px;
+      font-size: 1.15rem;
+      min-width: 180px;
+      width: min(100%, 260px);
+      min-height: 52px;
       outline: none;
-      margin: 0 6px;
+      margin: 0 6px 0 0;
+      background: #fff;
+    }
+
+    .mobile-handwrite {
+      ime-mode: active;
     }
 
     .small-btn {
@@ -226,18 +233,27 @@
     .match-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      gap: 14px;
       margin-top: 12px;
+      align-items: start;
+    }
+
+    #match-left,
+    #match-right {
+      min-width: 0;
     }
 
     .match-item {
       background: #faf7f3;
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 12px 14px;
+      padding: 10px 12px;
       cursor: pointer;
       transition: all 0.15s ease;
       margin-bottom: 10px;
+      font-size: 0.98rem;
+      line-height: 1.45;
+      word-break: break-word;
     }
 
     .match-item:hover {
@@ -319,9 +335,32 @@
     @media (max-width: 760px) {
       h1 { font-size: 1.7rem; }
       .hero, .section { padding: 16px; }
-      .match-grid { grid-template-columns: 1fr; }
-      input.answer-input { min-width: 110px; width: 120px; }
-      .option-grid { grid-template-columns: 1fr; }
+
+      .input-row {
+        margin-bottom: 18px;
+      }
+
+      input.answer-input {
+        width: 100%;
+        max-width: 100%;
+        min-height: 56px;
+        font-size: 1.15rem;
+      }
+
+      .match-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .match-item {
+        padding: 10px 10px;
+        font-size: 0.92rem;
+        border-radius: 12px;
+      }
+
+      .option-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -702,7 +741,6 @@
     }
 
     function openWordModal(word) {
-      const t = getText();
       document.getElementById('modal-word').textContent = word.hanzi;
       document.getElementById('modal-pinyin').textContent = word.pinyin;
       document.getElementById('modal-english').textContent = word.english;
@@ -785,7 +823,19 @@
         row.innerHTML = `
           <div>${idx + 1}. ${item.sentence}<span class="pinyin">(${item.pinyin})</span></div>
           <div style="margin-top:8px;">
-            <input class="answer-input" id="input-${idx}" type="text" placeholder="${t.inputPlaceholder}">
+            <input
+              class="answer-input mobile-handwrite"
+              id="input-${idx}"
+              type="text"
+              inputmode="text"
+              enterkeyhint="done"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+              lang="${currentLang === 'trad' ? 'zh-Hant' : 'zh-Hans'}"
+              placeholder="${t.inputPlaceholder}"
+            >
           </div>
         `;
         container.appendChild(row);
@@ -890,8 +940,7 @@
     }
 
     function showHints() {
-      const t = getText();
-      alert(t.hintText);
+      alert(getText().hintText);
     }
 
     function resetAll() {
