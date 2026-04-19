@@ -15,6 +15,7 @@
       --correct: #1e7a46;
       --wrong: #b42318;
       --border: #e4ddd5;
+      --shadow: 0 8px 22px rgba(0,0,0,0.05);
     }
 
     * { box-sizing: border-box; }
@@ -24,26 +25,26 @@
       font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
       background: linear-gradient(180deg, #f8f5f0 0%, #efe7dc 100%);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
     .container {
-      max-width: 1080px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 28px 18px 60px;
+      padding: 24px 16px 56px;
     }
 
     .hero {
-      background: rgba(255,255,255,0.88);
+      background: rgba(255,255,255,0.9);
       border: 1px solid var(--border);
       border-radius: 24px;
-      padding: 26px;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
     }
 
     h1 {
-      margin: 0 0 10px;
+      margin: 0 0 8px;
       font-size: 2rem;
       color: var(--accent);
     }
@@ -67,7 +68,7 @@
       padding: 10px 16px;
       font-size: 0.98rem;
       cursor: pointer;
-      transition: transform 0.12s ease, opacity 0.12s ease;
+      transition: transform 0.12s ease;
     }
 
     button:hover { transform: translateY(-1px); }
@@ -92,14 +93,14 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 22px;
-      padding: 22px;
+      padding: 20px;
       margin-top: 18px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.04);
     }
 
     .section h2 {
       margin: 0 0 8px;
-      font-size: 1.35rem;
+      font-size: 1.32rem;
       color: var(--accent);
     }
 
@@ -115,7 +116,7 @@
       margin-top: 16px;
     }
 
-    .question:first-of-type {
+    .question:first-child {
       border-top: none;
       margin-top: 0;
       padding-top: 0;
@@ -127,7 +128,28 @@
       font-size: 1.02rem;
     }
 
-    .options {
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .chip {
+      background: #faf7f3;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+
+    .chip:hover {
+      background: #f3ebe3;
+    }
+
+    .option-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 10px;
@@ -170,64 +192,63 @@
     .feedback.correct { background: #edf8f1; color: var(--correct); }
     .feedback.wrong { background: #fff1f1; color: var(--wrong); }
 
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .chip {
-      background: #faf7f3;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 10px 14px;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.15s ease;
-    }
-
-    .chip.selected {
-      background: var(--accent-soft);
-      color: var(--accent);
-      border-color: #d6b6a0;
-      font-weight: 700;
-    }
-
-    .word-bank {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 12px 0;
-    }
-
-    .word {
-      background: #faf7f3;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 10px 14px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .word.selected {
-      background: #ead9cc;
-      border-color: #d6b6a0;
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .sentence {
+    .input-row {
       margin-bottom: 14px;
       font-size: 1rem;
     }
 
-    .sentence:last-child { margin-bottom: 0; }
+    .input-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .pinyin {
+      color: var(--muted);
+      font-size: 0.94rem;
+      margin-left: 6px;
+    }
+
+    input.answer-input {
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      min-width: 140px;
+      outline: none;
+      margin: 0 6px;
+    }
 
     .small-btn {
       background: var(--accent-soft);
       color: var(--accent);
       margin-top: 12px;
+    }
+
+    .match-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 12px;
+    }
+
+    .match-item {
+      background: #faf7f3;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin-bottom: 10px;
+    }
+
+    .match-item:hover {
+      background: #f3ebe3;
+    }
+
+    .match-item.selected {
+      background: var(--accent-soft);
+      border-color: #d6b6a0;
+      color: var(--accent);
+      font-weight: 700;
     }
 
     .teacher-tip {
@@ -240,43 +261,67 @@
       font-size: 0.95rem;
     }
 
-    .vocab-detail {
-      margin-top: 14px;
-      padding: 14px 16px;
-      border-radius: 14px;
-      background: #fcfaf7;
-      border: 1px solid var(--border);
-      color: #5b4b40;
-      min-height: 90px;
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.42);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 9999;
     }
 
-    .vocab-group-title {
-      margin-bottom: 8px;
-      font-weight: 700;
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(560px, 100%);
+      background: white;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.16);
+      padding: 22px 20px;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: #f4ece4;
       color: var(--accent);
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .modal h3 {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 1.5rem;
+    }
+
+    .modal-line {
+      margin: 8px 0;
       font-size: 1rem;
     }
 
-    input.answer-input {
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      font-size: 1rem;
-      min-width: 140px;
-      outline: none;
+    .modal-label {
+      font-weight: 700;
+      color: #6a5648;
     }
 
-    .match-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    @media (max-width: 700px) {
-      h1 { font-size: 1.65rem; }
-      .container { padding: 16px 12px 40px; }
-      .hero, .section { padding: 18px; }
+    @media (max-width: 760px) {
+      h1 { font-size: 1.7rem; }
+      .hero, .section { padding: 16px; }
       .match-grid { grid-template-columns: 1fr; }
+      input.answer-input { min-width: 110px; width: 120px; }
+      .option-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -284,7 +329,7 @@
   <div class="container">
     <div class="hero">
       <h1 id="page-title">陶瓷詞彙互動練習</h1>
-      <p class="sub" id="hero-sub">學生可直接點選、輸入、配對，立刻看到回饋。適合課堂投影、分組活動與 PPT 改編。</p>
+      <p class="sub" id="hero-sub">學生可以點選、輸入、配對，立刻看到回饋。適合課堂使用，也適合手機查看。</p>
       <div class="toolbar">
         <button class="secondary" id="lang-toggle" onclick="toggleLang()">切換到简体</button>
         <button class="primary" id="hint-btn" onclick="showHints()">顯示提示</button>
@@ -295,83 +340,89 @@
 
     <section class="section">
       <h2 id="sec1-title">一、詞彙銀行</h2>
-      <p class="note" id="sec1-note">請點選詞彙按鈕，查看拼音、英文與使用說明。這些詞按主題分成 5 組，方便記憶。</p>
+      <p class="note" id="sec1-note">請點選詞語，查看拼音、英文和使用說明。電腦和手機都可以直接查看。</p>
       <div id="vocab-bank"></div>
-      <div class="vocab-detail" id="vocab-detail">請先點選一個詞。</div>
     </section>
 
     <section class="section">
       <h2 id="sec2-title">二、語境選擇</h2>
-      <p class="note" id="sec2-note">請選出最自然、最合適的詞語。</p>
+      <p class="note" id="sec2-note">請選出最合適的詞語。</p>
       <div id="mcq-container"></div>
     </section>
 
     <section class="section">
-      <h2 id="sec3-title">三、手寫輸入填空</h2>
-      <p class="note" id="sec3-note">請直接把答案打進空格。可以先想，再輸入。</p>
+      <h2 id="sec3-title">三、看拼音寫漢字</h2>
+      <p class="note" id="sec3-note">請看拼音，在空格中寫出正確的漢字。</p>
       <div id="input-container"></div>
       <button class="small-btn" id="check-input-btn" onclick="checkInputs()">檢查答案</button>
       <div id="input-feedback" class="feedback"></div>
     </section>
 
     <section class="section">
-      <h2 id="sec4-title">四、配對連線</h2>
-      <p class="note" id="sec4-note">請把左邊的詞和右邊最合適的意思或搭配配對。點左邊，再點右邊。</p>
+      <h2 id="sec4-title">四、搭配配對</h2>
+      <p class="note" id="sec4-note">請點左邊，再點右邊，完成搭配。</p>
       <div id="match-status" class="feedback show" style="display:block;"></div>
       <div class="match-grid">
         <div id="match-left"></div>
         <div id="match-right"></div>
       </div>
       <button class="small-btn" id="check-match-btn" onclick="checkMatches()">檢查配對</button>
-      <div class="teacher-tip" id="teacher-tip">教師用法建議：可以先讓學生自己找答案，再請他們解釋：你為什麼選這個詞？這個詞最常用在哪裡？</div>
+      <div class="teacher-tip" id="teacher-tip">小提示：先想一想這個詞最常跟什麼搭配，再點答案。</div>
     </section>
+  </div>
+
+  <div class="modal" id="vocab-modal" onclick="closeModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="forceCloseModal()">✕</button>
+      <h3 id="modal-word">陶瓷</h3>
+      <div class="modal-line"><span class="modal-label" id="modal-pinyin-label">拼音：</span><span id="modal-pinyin"></span></div>
+      <div class="modal-line"><span class="modal-label">English:</span> <span id="modal-english"></span></div>
+      <div class="modal-line"><span class="modal-label" id="modal-note-label">使用說明：</span><span id="modal-note"></span></div>
+    </div>
   </div>
 
   <script>
     let currentLang = 'trad';
     let score = 0;
-    let selectedVocabChip = null;
+    let mcqAnswered = {};
+    let inputScored = false;
+    let matchScored = false;
     let selectedMatchLeft = null;
     let matchSelections = {};
-    let mcqAnswered = {};
-    let inputChecked = false;
-    let matchChecked = false;
 
     const i18n = {
       trad: {
         pageTitle: '陶瓷詞彙互動練習',
-        heroSub: '學生可直接點選、輸入、配對，立刻看到回饋。適合課堂投影、分組活動與 PPT 改編。',
+        heroSub: '學生可以點選、輸入、配對，立刻看到回饋。適合課堂使用，也適合手機查看。',
         toggle: '切換到简体',
         hintBtn: '顯示提示',
         resetBtn: '重新開始',
         scoreLabel: '目前得分：',
         sec1Title: '一、詞彙銀行',
-        sec1Note: '請點選詞彙按鈕，查看拼音、英文與使用說明。這些詞按主題分成 5 組，方便記憶。',
+        sec1Note: '請點選詞語，查看拼音、英文和使用說明。電腦和手機都可以直接查看。',
         sec2Title: '二、語境選擇',
-        sec2Note: '請選出最自然、最合適的詞語。',
-        sec3Title: '三、手寫輸入填空',
-        sec3Note: '請直接把答案打進空格。可以先想，再輸入。',
-        sec4Title: '四、配對連線',
-        sec4Note: '請把左邊的詞和右邊最合適的意思或搭配配對。點左邊，再點右邊。',
+        sec2Note: '請選出最合適的詞語。',
+        sec3Title: '三、看拼音寫漢字',
+        sec3Note: '請看拼音，在空格中寫出正確的漢字。',
+        sec4Title: '四、搭配配對',
+        sec4Note: '請點左邊，再點右邊，完成搭配。',
+        teacherTip: '小提示：先想一想這個詞最常跟什麼搭配，再點答案。',
         checkInput: '檢查答案',
         checkMatch: '檢查配對',
-        teacherTip: '教師用法建議：可以先讓學生自己找答案，再請他們解釋：你為什麼選這個詞？這個詞最常用在哪裡？',
-        vocabPrompt: '請先點選一個詞。',
         pinyinLabel: '拼音：',
-        englishLabel: 'English: ',
         noteLabel: '使用說明：',
+        hintText: '提示：可以先按主題記，再按搭配記。',
         correctMsg: '答對了！',
         wrongMsg: '再看看。參考答案：',
-        inputPlaceholder: '請輸入詞語',
+        inputPlaceholder: '寫漢字',
         inputPerfect: '全部正確！',
         inputPartial: '你答對了',
-        inputPartial2: '。建議請學生大聲讀一遍完整句子。',
+        inputPartial2: '。可以再檢查拼音和漢字是不是對應。',
         matchPrompt: '請先點左邊，再點右邊完成配對。',
         matchDone: '已配對：',
         matchPerfect: '太好了！全部配對正確。',
         matchPartial: '目前答對',
-        matchPartial2: '。可以再看看哪些詞義還容易混淆。',
-        hintText: '提示：先按主題記，再按功能記。例如：器物與作品 → 製作與過程 → 特點與價值 → 歷史與傳播 → 生活與空間',
+        matchPartial2: '。再看看哪些搭配還不太熟。',
         vocabGroups: [
           {
             title: '器物與作品',
@@ -383,122 +434,116 @@
               { hanzi: '盤', pinyin: 'pán', english: 'plate; tray', note: '常用來裝菜、點心等。' },
               { hanzi: '罐', pinyin: 'guàn', english: 'jar; pot', note: '常用來裝水、茶葉、調味料等。' },
               { hanzi: '裝飾品', pinyin: 'zhuāngshìpǐn', english: 'decoration; ornament', note: '重點在好看，不一定每天使用。' },
-              { hanzi: '工藝品', pinyin: 'gōngyìpǐn', english: 'handicraft; craft object', note: '常帶有藝術性，也常用來展示技藝。' }
+              { hanzi: '工藝品', pinyin: 'gōngyìpǐn', english: 'craft object', note: '常帶有藝術性，也常用來展示技藝。' }
             ]
           },
           {
             title: '製作與過程',
             words: [
-              { hanzi: '泥土', pinyin: 'nítǔ', english: 'clay; earth; soil', note: '做陶器、瓷器的重要材料。' },
-              { hanzi: '製', pinyin: 'zhì', english: 'to make; to manufacture', note: '如：燒製、製作。繁體常寫「製」。' },
-              { hanzi: '曬乾', pinyin: 'shàigān', english: 'to dry in the sun', note: '做好的器物常要先曬乾，再進一步處理。' },
+              { hanzi: '泥土', pinyin: 'nítǔ', english: 'clay; soil', note: '做陶器、瓷器的重要材料。' },
+              { hanzi: '曬乾', pinyin: 'shàigān', english: 'dry in the sun', note: '做好的器物常要先曬乾。' },
               { hanzi: '溫度', pinyin: 'wēndù', english: 'temperature', note: '燒製時控制溫度很重要。' },
-              { hanzi: '摔', pinyin: 'shuāi', english: 'to drop; to fall and hit', note: '常和「碎」一起出現：摔碎。' },
-              { hanzi: '碎', pinyin: 'suì', english: 'broken; shattered', note: '表示東西裂開、破掉。' },
-              { hanzi: '包', pinyin: 'bāo', english: 'to wrap', note: '運送貴重物品時常要包好。' },
-              { hanzi: '層', pinyin: 'céng', english: 'layer', note: '如：一層紙、兩層布。' }
+              { hanzi: '摔', pinyin: 'shuāi', english: 'drop; fall', note: '常和「碎」一起出現：摔碎。' },
+              { hanzi: '澆', pinyin: 'jiāo', english: 'pour; water', note: '常說：澆水。' }
             ]
           },
           {
             title: '特點與價值',
             words: [
               { hanzi: '結實', pinyin: 'jiēshi', english: 'strong; sturdy', note: '表示不容易壞，很牢固。' },
-              { hanzi: '笨重', pinyin: 'bènzhòng', english: 'heavy and clumsy', note: '表示又重又不方便拿。' },
               { hanzi: '美麗', pinyin: 'měilì', english: 'beautiful', note: '偏正式、書面一點。' },
-              { hanzi: '實用', pinyin: 'shíyòng', english: 'practical; useful', note: '表示真的有用，適合日常生活。' },
+              { hanzi: '實用', pinyin: 'shíyòng', english: 'practical', note: '表示真的有用，適合日常生活。' },
               { hanzi: '昂貴', pinyin: 'ángguì', english: 'expensive', note: '強調價格高。' },
-              { hanzi: '珍貴', pinyin: 'zhēnguì', english: 'precious; valuable', note: '強調少見、有價值。' },
-              { hanzi: '貴重', pinyin: 'guìzhòng', english: 'valuable; costly', note: '常用來提醒小心保管。' },
-              { hanzi: '尊貴', pinyin: 'zūnguì', english: 'honorable; noble', note: '多形容身份、地位或很高級的感覺。' }
+              { hanzi: '名聲', pinyin: 'míngshēng', english: 'reputation; fame', note: '常說：有名聲、名聲越來越大。' }
             ]
           },
           {
-            title: '歷史與傳播',
+            title: '歷史與發展',
             words: [
-              { hanzi: '來歷', pinyin: 'láilì', english: 'origin; history', note: '可指東西怎麼來的、背景是什麼。' },
-              { hanzi: '發明', pinyin: 'fāmíng', english: 'to invent; invention', note: '可作動詞，也可作名詞。' },
-              { hanzi: '偶然', pinyin: 'ǒurán', english: 'by chance; accidental', note: '不是計畫好的，而是剛好發生。' },
-              { hanzi: '有意識', pinyin: 'yǒuyìshí', english: 'conscious; intentional', note: '和「偶然」相對，表示有目的地做。' },
-              { hanzi: '起初', pinyin: 'qǐchū', english: 'at first; in the beginning', note: '表示最早開始的時候。' },
-              { hanzi: '運', pinyin: 'yùn', english: 'to transport', note: '如：把瓷器運到別的地方。' },
-              { hanzi: '歐洲', pinyin: 'Ōuzhōu', english: 'Europe', note: '課文中常和美洲一起出現。' },
-              { hanzi: '美洲', pinyin: 'Měizhōu', english: 'the Americas', note: '可指北美、南美整體。' }
+              { hanzi: '偶然', pinyin: 'ǒurán', english: 'by chance', note: '不是計畫好的，而是剛好發生。' },
+              { hanzi: '有意識', pinyin: 'yǒuyìshí', english: 'consciously; intentionally', note: '表示有目的地去做。' },
+              { hanzi: '起初', pinyin: 'qǐchū', english: 'at first', note: '表示最早開始的時候。' },
+              { hanzi: '來歷', pinyin: 'láilì', english: 'origin; history', note: '可指背景或來源。' }
             ]
           },
           {
-            title: '生活與空間',
+            title: '生活與搭配',
             words: [
-              { hanzi: '生活', pinyin: 'shēnghuó', english: 'life; daily life', note: '很常用，可指生活本身，也可指過日子。' },
-              { hanzi: '日常', pinyin: 'rìcháng', english: 'daily; everyday', note: '常見搭配：日常生活、日常用品。' },
-              { hanzi: '用品', pinyin: 'yòngpǐn', english: 'articles for use', note: '表示用來使用的東西。' },
-              { hanzi: '紙', pinyin: 'zhǐ', english: 'paper', note: '運送易碎物品時常會用紙包。' },
-              { hanzi: '四周', pinyin: 'sìzhōu', english: 'all around; surrounding area', note: '表示周圍。' },
-              { hanzi: '緊緊', pinyin: 'jǐnjǐn', english: 'tightly', note: '常說：緊緊地包住、緊緊地抱住。' },
-              { hanzi: '碰', pinyin: 'pèng', english: 'to bump into; to touch', note: '易碎的東西要小心，不要碰。' },
-              { hanzi: '大多數', pinyin: 'dàduōshù', english: 'the majority; most', note: '表示大部分。' }
+              { hanzi: '日常', pinyin: 'rìcháng', english: 'daily; everyday', note: '常見搭配：日常用品。' },
+              { hanzi: '緊緊地', pinyin: 'jǐnjǐn de', english: 'tightly', note: '如：緊緊地抱住、緊緊地包住。' },
+              { hanzi: '路途', pinyin: 'lùtú', english: 'journey; road', note: '常見搭配：路途遙遠。' },
+              { hanzi: '陶瓷', pinyin: 'táocí', english: 'porcelain; ceramics', note: '常見搭配：陶瓷碗盤。' }
             ]
           }
         ],
         mcqs: [
-          { q: '這個盤子又好看又（   ）。', options: ['驕傲', '實用', '路途遙遠', '尊貴'], answer: '實用', explanation: '「實用」表示真的有用，適合每天使用。' },
-          { q: '他不小心把杯子摔到地上，杯子馬上______了。', options: ['留', '碎', '遍', '澆'], answer: '碎', explanation: '「摔碎」是非常自然的搭配。' },
-          { q: '這件工藝品很少見，而且很有歷史價值，所以非常______。', options: ['珍貴', '笨重', '四周', '起初'], answer: '珍貴', explanation: '「珍貴」強調寶貴、少見、有價值。' },
+          { q: '這個盤子很好看，也很方便每天使用。 = 這個盤子又好看又（   ）', options: ['驕傲', '實用', '路途遙遠', '尊貴'], answer: '實用', explanation: '「實用」表示真的有用，適合每天使用。' },
+          { q: '他不小心把杯子摔到地上，杯子馬上______了。', options: ['留', '碎', '遍', '澆'], answer: '碎', explanation: '「摔碎」是很自然的搭配。' },
+          { q: '這件工藝品很少見，而且很有歷史價值，所以非常______。', options: ['珍貴', '笨重', '四周', '起初'], answer: '珍貴', explanation: '「珍貴」強調少見、有價值。' },
           { q: '這件東西太貴了，我有點不______買。', options: ['碰', '製', '捨得', '留'], answer: '捨得', explanation: '「捨得」常用在花錢、送東西等語境。' },
           { q: '做好的陶器要先放在外面______，不能馬上燒。', options: ['曬乾', '碰', '運', '包'], answer: '曬乾', explanation: '「曬乾」就是用太陽或空氣把東西變乾。' },
           { q: '這個花瓶很______，你抱的時候要小心，別太用力。', options: ['路途遙遠', '貴重', '大多數', '偶然'], answer: '貴重', explanation: '「貴重」多用於東西價格高、需要小心保管。' }
         ],
-        inputs: [
-          { text: '做陶器的時候，人們先用', answer: '泥土', tail: '做出形狀。' },
-          { text: '有些陶瓷不只是好看，也很', answer: '實用', tail: '，所以大家每天都會用。' },
-          { text: '人們後來開始有', answer: '意識', tail: '地研究怎麼把陶器做得更漂亮。' },
-          { text: '這件工藝品很', answer: '珍貴', tail: '，所以大家都很小心。' },
-          { text: '運送花瓶的時候，要用紙一', answer: '層', tail: '一層地包好。' }
+        inputItems: [
+          { sentence: '做陶器的時候，人們先用________做出形狀。', pinyin: 'nítǔ', answer: '泥土' },
+          { sentence: '做好的東西不能馬上燒，要先放在太陽下________。', pinyin: 'shàigān', answer: '曬乾' },
+          { sentence: '燒製陶器時，________很重要，太高或太低都不行。', pinyin: 'wēndù', answer: '溫度' },
+          { sentence: '這種碗看起來不大，但是很________，不容易壞。', pinyin: 'jiēshi', answer: '結實' },
+          { sentence: '我喜歡這套餐具，因為它不但好看，而且很________。', pinyin: 'shíyòng', answer: '實用' },
+          { sentence: '有些陶瓷不只是用品，也是很漂亮的________。', pinyin: 'gōngyìpǐn', answer: '工藝品' },
+          { sentence: '這只花瓶很有名，也很________，一般家庭買不起。', pinyin: 'ángguì', answer: '昂貴' },
+          { sentence: '陶器和________不完全一樣，後者通常更細、更亮。', pinyin: 'táocí', answer: '陶瓷' },
+          { sentence: '這個發現不是計畫好的，而是________發生的。', pinyin: 'ǒurán', answer: '偶然' },
+          { sentence: '人們________只是想做生活用品，後來才慢慢重視美感。', pinyin: 'qǐchū', answer: '起初' }
         ],
-        matchLeft: ['日常用品', '控制溫度', '摔碎', '路途遙遠', '緊緊地包'],
-        matchRight: ['表示把東西包得很緊', '表示每天常常用的東西', '表示不小心掉下來而破了', '表示在燒製時管理火候', '表示距離很遠'],
+        matchLeft: ['日常', '美麗的', '路途', '緊緊地', '陶瓷', '有意識地', '名聲', '昂貴的', '摔', '澆'],
+        matchRight: ['很遠', '花瓶', '水', '東西', '越來越大', '用品', '抱住', '在地上', '練習寫字', '碗盤'],
         matchMap: {
-          '日常用品': '表示每天常常用的東西',
-          '控制溫度': '表示在燒製時管理火候',
-          '摔碎': '表示不小心掉下來而破了',
-          '路途遙遠': '表示距離很遠',
-          '緊緊地包': '表示把東西包得很緊'
+          '日常': '用品',
+          '美麗的': '花瓶',
+          '路途': '很遠',
+          '緊緊地': '抱住',
+          '陶瓷': '碗盤',
+          '有意識地': '練習寫字',
+          '名聲': '越來越大',
+          '昂貴的': '東西',
+          '摔': '在地上',
+          '澆': '水'
         }
       },
 
       simp: {
         pageTitle: '陶瓷词汇互动练习',
-        heroSub: '学生可直接点选、输入、配对，立刻看到反馈。适合课堂投影、分组活动与 PPT 改编。',
+        heroSub: '学生可以点选、输入、配对，立刻看到反馈。适合课堂使用，也适合手机查看。',
         toggle: '切換到繁體',
         hintBtn: '显示提示',
         resetBtn: '重新开始',
         scoreLabel: '目前得分：',
         sec1Title: '一、词汇银行',
-        sec1Note: '请点选词汇按钮，查看拼音、英文与使用说明。这些词按主题分成 5 组，方便记忆。',
+        sec1Note: '请点选词语，查看拼音、英文和使用说明。电脑和手机都可以直接查看。',
         sec2Title: '二、语境选择',
-        sec2Note: '请选择出最自然、最合适的词语。',
-        sec3Title: '三、手写输入填空',
-        sec3Note: '请直接把答案打进空格。可以先想，再输入。',
-        sec4Title: '四、配对连线',
-        sec4Note: '请把左边的词和右边最合适的意思或搭配配对。点左边，再点右边。',
+        sec2Note: '请选择出最合适的词语。',
+        sec3Title: '三、看拼音写汉字',
+        sec3Note: '请看拼音，在空格中写出正确的汉字。',
+        sec4Title: '四、搭配配对',
+        sec4Note: '请点左边，再点右边，完成搭配。',
+        teacherTip: '小提示：先想一想这个词最常跟什么搭配，再点答案。',
         checkInput: '检查答案',
         checkMatch: '检查配对',
-        teacherTip: '教师用法建议：可以先让学生自己找答案，再请他们解释：你为什么选这个词？这个词最常用在哪里？',
-        vocabPrompt: '请先点选一个词。',
         pinyinLabel: '拼音：',
-        englishLabel: 'English: ',
         noteLabel: '使用说明：',
+        hintText: '提示：可以先按主题记，再按搭配记。',
         correctMsg: '答对了！',
         wrongMsg: '再看看。参考答案：',
-        inputPlaceholder: '请输入词语',
+        inputPlaceholder: '写汉字',
         inputPerfect: '全部正确！',
         inputPartial: '你答对了',
-        inputPartial2: '。建议请学生大声读一遍完整句子。',
+        inputPartial2: '。可以再检查拼音和汉字是不是对应。',
         matchPrompt: '请先点左边，再点右边完成配对。',
         matchDone: '已配对：',
         matchPerfect: '太好了！全部配对正确。',
         matchPartial: '目前答对',
-        matchPartial2: '。可以再看看哪些词义还容易混淆。',
-        hintText: '提示：先按主题记，再按功能记。例如：器物与作品 → 制作与过程 → 特点与价值 → 历史与传播 → 生活与空间',
+        matchPartial2: '。再看看哪些搭配还不太熟。',
         vocabGroups: [
           {
             title: '器物与作品',
@@ -510,85 +555,81 @@
               { hanzi: '盘', pinyin: 'pán', english: 'plate; tray', note: '常用来装菜、点心等。' },
               { hanzi: '罐', pinyin: 'guàn', english: 'jar; pot', note: '常用来装水、茶叶、调味料等。' },
               { hanzi: '装饰品', pinyin: 'zhuāngshìpǐn', english: 'decoration; ornament', note: '重点在好看，不一定每天使用。' },
-              { hanzi: '工艺品', pinyin: 'gōngyìpǐn', english: 'handicraft; craft object', note: '常带有艺术性，也常用来展示技艺。' }
+              { hanzi: '工艺品', pinyin: 'gōngyìpǐn', english: 'craft object', note: '常带有艺术性，也常用来展示技艺。' }
             ]
           },
           {
             title: '制作与过程',
             words: [
-              { hanzi: '泥土', pinyin: 'nítǔ', english: 'clay; earth; soil', note: '做陶器、瓷器的重要材料。' },
-              { hanzi: '制', pinyin: 'zhì', english: 'to make; to manufacture', note: '如：烧制、制作。简体常写“制”。' },
-              { hanzi: '晒干', pinyin: 'shàigān', english: 'to dry in the sun', note: '做好的器物常要先晒干，再进一步处理。' },
+              { hanzi: '泥土', pinyin: 'nítǔ', english: 'clay; soil', note: '做陶器、瓷器的重要材料。' },
+              { hanzi: '晒干', pinyin: 'shàigān', english: 'dry in the sun', note: '做好的器物常要先晒干。' },
               { hanzi: '温度', pinyin: 'wēndù', english: 'temperature', note: '烧制时控制温度很重要。' },
-              { hanzi: '摔', pinyin: 'shuāi', english: 'to drop; to fall and hit', note: '常和“碎”一起出现：摔碎。' },
-              { hanzi: '碎', pinyin: 'suì', english: 'broken; shattered', note: '表示东西裂开、破掉。' },
-              { hanzi: '包', pinyin: 'bāo', english: 'to wrap', note: '运送贵重物品时常要包好。' },
-              { hanzi: '层', pinyin: 'céng', english: 'layer', note: '如：一层纸、两层布。' }
+              { hanzi: '摔', pinyin: 'shuāi', english: 'drop; fall', note: '常和“碎”一起出现：摔碎。' },
+              { hanzi: '浇', pinyin: 'jiāo', english: 'pour; water', note: '常说：浇水。' }
             ]
           },
           {
             title: '特点与价值',
             words: [
               { hanzi: '结实', pinyin: 'jiēshi', english: 'strong; sturdy', note: '表示不容易坏，很牢固。' },
-              { hanzi: '笨重', pinyin: 'bènzhòng', english: 'heavy and clumsy', note: '表示又重又不方便拿。' },
               { hanzi: '美丽', pinyin: 'měilì', english: 'beautiful', note: '偏正式、书面一点。' },
-              { hanzi: '实用', pinyin: 'shíyòng', english: 'practical; useful', note: '表示真的有用，适合日常生活。' },
+              { hanzi: '实用', pinyin: 'shíyòng', english: 'practical', note: '表示真的有用，适合日常生活。' },
               { hanzi: '昂贵', pinyin: 'ángguì', english: 'expensive', note: '强调价格高。' },
-              { hanzi: '珍贵', pinyin: 'zhēnguì', english: 'precious; valuable', note: '强调少见、有价值。' },
-              { hanzi: '贵重', pinyin: 'guìzhòng', english: 'valuable; costly', note: '常用来提醒小心保管。' },
-              { hanzi: '尊贵', pinyin: 'zūnguì', english: 'honorable; noble', note: '多形容身份、地位或很高级的感觉。' }
+              { hanzi: '名声', pinyin: 'míngshēng', english: 'reputation; fame', note: '常说：有名声、名声越来越大。' }
             ]
           },
           {
-            title: '历史与传播',
+            title: '历史与发展',
             words: [
-              { hanzi: '来历', pinyin: 'láilì', english: 'origin; history', note: '可指东西怎么来的、背景是什么。' },
-              { hanzi: '发明', pinyin: 'fāmíng', english: 'to invent; invention', note: '可作动词，也可作名词。' },
-              { hanzi: '偶然', pinyin: 'ǒurán', english: 'by chance; accidental', note: '不是计划好的，而是刚好发生。' },
-              { hanzi: '有意识', pinyin: 'yǒuyìshí', english: 'conscious; intentional', note: '和“偶然”相对，表示有目的地做。' },
-              { hanzi: '起初', pinyin: 'qǐchū', english: 'at first; in the beginning', note: '表示最早开始的时候。' },
-              { hanzi: '运', pinyin: 'yùn', english: 'to transport', note: '如：把瓷器运到别的地方。' },
-              { hanzi: '欧洲', pinyin: 'Ōuzhōu', english: 'Europe', note: '课文中常和美洲一起出现。' },
-              { hanzi: '美洲', pinyin: 'Měizhōu', english: 'the Americas', note: '可指北美、南美整体。' }
+              { hanzi: '偶然', pinyin: 'ǒurán', english: 'by chance', note: '不是计划好的，而是刚好发生。' },
+              { hanzi: '有意识', pinyin: 'yǒuyìshí', english: 'consciously; intentionally', note: '表示有目的地去做。' },
+              { hanzi: '起初', pinyin: 'qǐchū', english: 'at first', note: '表示最早开始的时候。' },
+              { hanzi: '来历', pinyin: 'láilì', english: 'origin; history', note: '可指背景或来源。' }
             ]
           },
           {
-            title: '生活与空间',
+            title: '生活与搭配',
             words: [
-              { hanzi: '生活', pinyin: 'shēnghuó', english: 'life; daily life', note: '很常用，可指生活本身，也可指过日子。' },
-              { hanzi: '日常', pinyin: 'rìcháng', english: 'daily; everyday', note: '常见搭配：日常生活、日常用品。' },
-              { hanzi: '用品', pinyin: 'yòngpǐn', english: 'articles for use', note: '表示用来使用的东西。' },
-              { hanzi: '纸', pinyin: 'zhǐ', english: 'paper', note: '运送易碎物品时常会用纸包。' },
-              { hanzi: '四周', pinyin: 'sìzhōu', english: 'all around; surrounding area', note: '表示周围。' },
-              { hanzi: '紧紧', pinyin: 'jǐnjǐn', english: 'tightly', note: '常说：紧紧地包住、紧紧地抱住。' },
-              { hanzi: '碰', pinyin: 'pèng', english: 'to bump into; to touch', note: '易碎的东西要小心，不要碰。' },
-              { hanzi: '大多数', pinyin: 'dàduōshù', english: 'the majority; most', note: '表示大部分。' }
+              { hanzi: '日常', pinyin: 'rìcháng', english: 'daily; everyday', note: '常见搭配：日常用品。' },
+              { hanzi: '紧紧地', pinyin: 'jǐnjǐn de', english: 'tightly', note: '如：紧紧地抱住、紧紧地包住。' },
+              { hanzi: '路途', pinyin: 'lùtú', english: 'journey; road', note: '常见搭配：路途遥远。' },
+              { hanzi: '陶瓷', pinyin: 'táocí', english: 'porcelain; ceramics', note: '常见搭配：陶瓷碗盘。' }
             ]
           }
         ],
         mcqs: [
-          { q: '这个盘子又好看又（   ）。', options: ['骄傲', '实用', '路途遥远', '尊贵'], answer: '实用', explanation: '“实用”表示真的有用，适合每天使用。' },
-          { q: '他不小心把杯子摔到地上，杯子马上______了。', options: ['留', '碎', '遍', '浇'], answer: '碎', explanation: '“摔碎”是非常自然的搭配。' },
-          { q: '这件工艺品很少见，而且很有历史价值，所以非常______。', options: ['珍贵', '笨重', '四周', '起初'], answer: '珍贵', explanation: '“珍贵”强调宝贵、少见、有价值。' },
+          { q: '这个盘子很好看，也很方便每天使用。 = 这个盘子又好看又（   ）', options: ['骄傲', '实用', '路途遥远', '尊贵'], answer: '实用', explanation: '“实用”表示真的有用，适合每天使用。' },
+          { q: '他不小心把杯子摔到地上，杯子马上______了。', options: ['留', '碎', '遍', '浇'], answer: '碎', explanation: '“摔碎”是很自然的搭配。' },
+          { q: '这件工艺品很少见，而且很有历史价值，所以非常______。', options: ['珍贵', '笨重', '四周', '起初'], answer: '珍贵', explanation: '“珍贵”强调少见、有价值。' },
           { q: '这件东西太贵了，我有点不______买。', options: ['碰', '制', '舍得', '留'], answer: '舍得', explanation: '“舍得”常用在花钱、送东西等语境。' },
           { q: '做好的陶器要先放在外面______，不能马上烧。', options: ['晒干', '碰', '运', '包'], answer: '晒干', explanation: '“晒干”就是用太阳或空气把东西变干。' },
           { q: '这个花瓶很______，你抱的时候要小心，别太用力。', options: ['路途遥远', '贵重', '大多数', '偶然'], answer: '贵重', explanation: '“贵重”多用于东西价格高、需要小心保管。' }
         ],
-        inputs: [
-          { text: '做陶器的时候，人们先用', answer: '泥土', tail: '做出形状。' },
-          { text: '有些陶瓷不只是好看，也很', answer: '实用', tail: '，所以大家每天都会用。' },
-          { text: '人们后来开始有', answer: '意识', tail: '地研究怎么把陶器做得更漂亮。' },
-          { text: '这件工艺品很', answer: '珍贵', tail: '，所以大家都很小心。' },
-          { text: '运送花瓶的时候，要用纸一', answer: '层', tail: '一层地包好。' }
+        inputItems: [
+          { sentence: '做陶器的时候，人们先用________做出形状。', pinyin: 'nítǔ', answer: '泥土' },
+          { sentence: '做好的东西不能马上烧，要先放在太阳下________。', pinyin: 'shàigān', answer: '晒干' },
+          { sentence: '烧制陶器时，________很重要，太高或太低都不行。', pinyin: 'wēndù', answer: '温度' },
+          { sentence: '这种碗看起来不大，但是很________，不容易坏。', pinyin: 'jiēshi', answer: '结实' },
+          { sentence: '我喜欢这套餐具，因为它不但好看，而且很________。', pinyin: 'shíyòng', answer: '实用' },
+          { sentence: '有些陶瓷不只是用品，也是很漂亮的________。', pinyin: 'gōngyìpǐn', answer: '工艺品' },
+          { sentence: '这只花瓶很有名，也很________，一般家庭买不起。', pinyin: 'ángguì', answer: '昂贵' },
+          { sentence: '陶器和________不完全一样，后者通常更细、更亮。', pinyin: 'táocí', answer: '陶瓷' },
+          { sentence: '这个发现不是计划好的，而是________发生的。', pinyin: 'ǒurán', answer: '偶然' },
+          { sentence: '人们________只是想做生活用品，后来才慢慢重视美感。', pinyin: 'qǐchū', answer: '起初' }
         ],
-        matchLeft: ['日常用品', '控制温度', '摔碎', '路途遥远', '紧紧地包'],
-        matchRight: ['表示把东西包得很紧', '表示每天常常用的东西', '表示不小心掉下来而破了', '表示在烧制时管理火候', '表示距离很远'],
+        matchLeft: ['日常', '美丽的', '路途', '紧紧地', '陶瓷', '有意识地', '名声', '昂贵的', '摔', '浇'],
+        matchRight: ['很远', '花瓶', '水', '东西', '越来越大', '用品', '抱住', '在地上', '练习写字', '碗盘'],
         matchMap: {
-          '日常用品': '表示每天常常用的东西',
-          '控制温度': '表示在烧制时管理火候',
-          '摔碎': '表示不小心掉下来而破了',
-          '路途遥远': '表示距离很远',
-          '紧紧地包': '表示把东西包得很紧'
+          '日常': '用品',
+          '美丽的': '花瓶',
+          '路途': '很远',
+          '紧紧地': '抱住',
+          '陶瓷': '碗盘',
+          '有意识地': '练习写字',
+          '名声': '越来越大',
+          '昂贵的': '东西',
+          '摔': '在地上',
+          '浇': '水'
         }
       }
     };
@@ -598,7 +639,7 @@
     }
 
     function totalCount() {
-      return getText().mcqs.length + getText().inputs.length + 1;
+      return getText().mcqs.length + getText().inputItems.length + 1;
     }
 
     function updateScore() {
@@ -625,6 +666,9 @@
       document.getElementById('check-input-btn').textContent = t.checkInput;
       document.getElementById('check-match-btn').textContent = t.checkMatch;
       document.getElementById('teacher-tip').textContent = t.teacherTip;
+      document.getElementById('match-status').textContent = t.matchPrompt;
+      document.getElementById('modal-pinyin-label').textContent = t.pinyinLabel;
+      document.getElementById('modal-note-label').textContent = t.noteLabel;
     }
 
     function renderVocabBank() {
@@ -632,37 +676,48 @@
       const bank = document.getElementById('vocab-bank');
       bank.innerHTML = '';
 
-      t.vocabGroups.forEach((group, groupIndex) => {
+      t.vocabGroups.forEach(group => {
         const box = document.createElement('div');
         box.className = 'question';
 
         const title = document.createElement('div');
-        title.className = 'vocab-group-title';
+        title.className = 'q-title';
         title.textContent = group.title;
         box.appendChild(title);
 
         const chips = document.createElement('div');
         chips.className = 'chips';
 
-        group.words.forEach((word, wordIndex) => {
+        group.words.forEach(word => {
           const chip = document.createElement('div');
           chip.className = 'chip';
           chip.textContent = word.hanzi;
-          chip.onclick = () => {
-            document.querySelectorAll('#vocab-bank .chip').forEach(c => c.classList.remove('selected'));
-            chip.classList.add('selected');
-            selectedVocabChip = `${groupIndex}-${wordIndex}`;
-            document.getElementById('vocab-detail').innerHTML =
-              `<strong>${word.hanzi}</strong><br>${t.pinyinLabel}${word.pinyin}<br>${t.englishLabel}${word.english}<br>${t.noteLabel}${word.note}`;
-          };
+          chip.onclick = () => openWordModal(word);
           chips.appendChild(chip);
         });
 
         box.appendChild(chips);
         bank.appendChild(box);
       });
+    }
 
-      document.getElementById('vocab-detail').textContent = t.vocabPrompt;
+    function openWordModal(word) {
+      const t = getText();
+      document.getElementById('modal-word').textContent = word.hanzi;
+      document.getElementById('modal-pinyin').textContent = word.pinyin;
+      document.getElementById('modal-english').textContent = word.english;
+      document.getElementById('modal-note').textContent = word.note;
+      document.getElementById('vocab-modal').classList.add('show');
+    }
+
+    function closeModal(e) {
+      if (e.target.id === 'vocab-modal') {
+        document.getElementById('vocab-modal').classList.remove('show');
+      }
+    }
+
+    function forceCloseModal() {
+      document.getElementById('vocab-modal').classList.remove('show');
     }
 
     function renderMcqs() {
@@ -676,12 +731,12 @@
         qDiv.className = 'question';
         qDiv.innerHTML = `
           <div class="q-title">${idx + 1}. ${item.q}</div>
-          <div class="options" id="options-${idx}"></div>
+          <div class="option-grid" id="options-${idx}"></div>
           <div class="feedback" id="feedback-${idx}"></div>
         `;
         container.appendChild(qDiv);
 
-        const optionsDiv = qDiv.querySelector(`#options-${idx}`);
+        const optionsDiv = document.getElementById(`options-${idx}`);
         item.options.forEach(opt => {
           const btn = document.createElement('button');
           btn.className = 'option-btn';
@@ -695,10 +750,10 @@
     function handleMcq(idx, choice, btn) {
       const t = getText();
       const item = t.mcqs[idx];
-      const options = document.querySelectorAll(`#options-${idx} .option-btn`);
       if (mcqAnswered[idx]) return;
-
       mcqAnswered[idx] = true;
+
+      const options = document.querySelectorAll(`#options-${idx} .option-btn`);
       options.forEach(b => b.disabled = true);
 
       const feedback = document.getElementById(`feedback-${idx}`);
@@ -709,7 +764,7 @@
         score += 1;
       } else {
         btn.classList.add('wrong');
-        [...options].forEach(b => {
+        options.forEach(b => {
           if (b.textContent === item.answer) b.classList.add('correct');
         });
         feedback.className = 'feedback wrong show';
@@ -722,15 +777,16 @@
       const t = getText();
       const container = document.getElementById('input-container');
       container.innerHTML = '';
-      inputChecked = false;
+      inputScored = false;
 
-      t.inputs.forEach((item, idx) => {
+      t.inputItems.forEach((item, idx) => {
         const row = document.createElement('div');
-        row.className = 'sentence';
+        row.className = 'input-row';
         row.innerHTML = `
-          ${idx + 1}. ${item.text}
-          <input class="answer-input" id="input-${idx}" type="text" placeholder="${t.inputPlaceholder}">
-          ${item.tail}
+          <div>${idx + 1}. ${item.sentence}<span class="pinyin">(${item.pinyin})</span></div>
+          <div style="margin-top:8px;">
+            <input class="answer-input" id="input-${idx}" type="text" placeholder="${t.inputPlaceholder}">
+          </div>
         `;
         container.appendChild(row);
       });
@@ -744,7 +800,7 @@
       const t = getText();
       let correct = 0;
 
-      t.inputs.forEach((item, idx) => {
+      t.inputItems.forEach((item, idx) => {
         const input = document.getElementById(`input-${idx}`);
         const value = input.value.trim();
 
@@ -758,48 +814,40 @@
         }
       });
 
-      if (!inputChecked) {
+      if (!inputScored) {
         score += correct;
-        inputChecked = true;
-      } else {
-        const oldCorrect = Array.from({length: t.inputs.length}).filter((_, idx) => {
-          const input = document.getElementById(`input-${idx}`);
-          return input.value.trim() === t.inputs[idx].answer;
-        }).length;
+        inputScored = true;
       }
 
       const fb = document.getElementById('input-feedback');
-      fb.className = 'feedback show ' + (correct === t.inputs.length ? 'correct' : 'wrong');
-      fb.textContent = correct === t.inputs.length
+      fb.className = 'feedback show ' + (correct === t.inputItems.length ? 'correct' : 'wrong');
+      fb.textContent = correct === t.inputItems.length
         ? t.inputPerfect
-        : `${t.inputPartial} ${correct}/${t.inputs.length}${t.inputPartial2}`;
+        : `${t.inputPartial} ${correct}/${t.inputItems.length}${t.inputPartial2}`;
 
       updateScore();
     }
 
     function renderMatches() {
       const t = getText();
-      selectedMatchLeft = null;
-      matchSelections = {};
-      matchChecked = false;
-
       const leftBox = document.getElementById('match-left');
       const rightBox = document.getElementById('match-right');
-      const status = document.getElementById('match-status');
 
       leftBox.innerHTML = '';
       rightBox.innerHTML = '';
-      status.className = 'feedback show';
-      status.style.display = 'block';
-      status.textContent = t.matchPrompt;
+      selectedMatchLeft = null;
+      matchSelections = {};
+      matchScored = false;
+      document.getElementById('match-status').className = 'feedback show';
+      document.getElementById('match-status').textContent = t.matchPrompt;
 
       t.matchLeft.forEach(left => {
         const div = document.createElement('div');
-        div.className = 'word';
+        div.className = 'match-item';
         div.textContent = left;
         div.onclick = () => {
           selectedMatchLeft = left;
-          document.querySelectorAll('#match-left .word').forEach(w => w.classList.remove('selected'));
+          document.querySelectorAll('#match-left .match-item').forEach(i => i.classList.remove('selected'));
           div.classList.add('selected');
         };
         leftBox.appendChild(div);
@@ -808,13 +856,13 @@
       const shuffledRight = [...t.matchRight].sort(() => Math.random() - 0.5);
       shuffledRight.forEach(right => {
         const div = document.createElement('div');
-        div.className = 'word';
+        div.className = 'match-item';
         div.textContent = right;
         div.onclick = () => {
           if (!selectedMatchLeft) return;
           matchSelections[selectedMatchLeft] = right;
-          status.textContent = `${t.matchDone}${selectedMatchLeft} → ${right}`;
-          document.querySelectorAll('#match-left .word').forEach(w => w.classList.remove('selected'));
+          document.getElementById('match-status').textContent = `${t.matchDone}${selectedMatchLeft} → ${right}`;
+          document.querySelectorAll('#match-left .match-item').forEach(i => i.classList.remove('selected'));
           selectedMatchLeft = null;
         };
         rightBox.appendChild(div);
@@ -824,7 +872,6 @@
     function checkMatches() {
       const t = getText();
       let correct = 0;
-
       t.matchLeft.forEach(left => {
         if (matchSelections[left] === t.matchMap[left]) correct += 1;
       });
@@ -835,54 +882,32 @@
         ? t.matchPerfect
         : `${t.matchPartial} ${correct}/${t.matchLeft.length}${t.matchPartial2}`;
 
-      if (!matchChecked && correct === t.matchLeft.length) {
+      if (!matchScored && correct === t.matchLeft.length) {
         score += 1;
-        matchChecked = true;
+        matchScored = true;
       }
-
       updateScore();
     }
 
     function showHints() {
       const t = getText();
-      document.getElementById('vocab-detail').innerHTML = t.hintText;
-
-      t.mcqs.forEach((item, idx) => {
-        const feedback = document.getElementById(`feedback-${idx}`);
-        if (feedback && !feedback.classList.contains('show')) {
-          feedback.className = 'feedback correct show';
-          feedback.textContent = `${t.wrongMsg}${item.answer}。${item.explanation}`;
-        }
-      });
-
-      t.inputs.forEach((item, idx) => {
-        const input = document.getElementById(`input-${idx}`);
-        if (input && !input.value.trim()) {
-          input.value = item.answer;
-        }
-      });
-
-      const status = document.getElementById('match-status');
-      status.className = 'feedback show correct';
-      status.textContent = t.matchLeft
-        .map(left => `${left} → ${t.matchMap[left]}`)
-        .join('；');
+      alert(t.hintText);
     }
 
     function resetAll() {
       score = 0;
-      selectedVocabChip = null;
+      mcqAnswered = {};
+      inputScored = false;
+      matchScored = false;
       selectedMatchLeft = null;
       matchSelections = {};
-      inputChecked = false;
-      matchChecked = false;
-
       applyStaticText();
       renderVocabBank();
       renderMcqs();
       renderInputs();
       renderMatches();
       updateScore();
+      forceCloseModal();
     }
 
     function toggleLang() {
